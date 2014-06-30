@@ -1,7 +1,9 @@
 # -----------------------------------------------------------------------------
-# calc.py
+# mylanga.py
 #
-# Nuestros nombres
+# TP Teoria de lenguajes - 1er C 2014 
+#
+# Autores (en orden alfabetico): Gabriela Croce - Elisa Orduna - Martin Rados
 # -----------------------------------------------------------------------------
 
 import syntax_tree as st
@@ -28,7 +30,6 @@ tokens = [
     ]+list(reserved.values())
 
 # Ignorar comentarios multilinea
-
 def t_comentario(t):
     r'(/\*(.|\n)*?\*/)'
     pass
@@ -102,6 +103,9 @@ precedence = (
 
 # dictionary of names
 names = { }
+
+# Simbolo distinguido
+#start='programa'
 
 def p_test_test_test(t):
     'test_test_test : lista_funciones expression'

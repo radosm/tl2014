@@ -13,4 +13,4 @@ function factorial(n) {
      else return n * factorial(n - 1)
 }
 
-factorial(5) * pot(10, 2)
+factorial(5) * pot(10, 2) * 89 
