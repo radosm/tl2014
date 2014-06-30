@@ -22,9 +22,9 @@ reserved = {
 }
 
 tokens = [
-    'PP','NAME','NUMBER','COMA','LLAVEI','LLAVED',
-    'PLUS','MINUS','TIMES','DIVIDE','EQUALS',
-    'LPAREN','RPAREN','POWER',
+    'PP','ID','NUMERO','COMA','LLAVEI','LLAVED',
+    'MAS','MENOS','MULTIPLICACION','DIVISION','ASIGNACION',
+    'PARENI','PAREND','POTENCIA',
     'GT','GE','LT','LE','NE','EQ',
     'AND','OR','NOT',
     ]+list(reserved.values())
@@ -40,14 +40,14 @@ t_PP      = r'\.\.'
 t_COMA    = r'\,'
 t_LLAVEI  = r'\{'
 t_LLAVED  = r'\}'
-t_PLUS    = r'\+'
-t_MINUS   = r'-'
-t_TIMES   = r'\*'
-t_DIVIDE  = r'/'
-t_EQUALS  = r'='
-t_LPAREN  = r'\('
-t_RPAREN  = r'\)'
-t_POWER   = r'\^'
+t_MAS    = r'\+'
+t_MENOS   = r'-'
+t_MULTIPLICACION   = r'\*'
+t_DIVISION  = r'/'
+t_ASIGNACION  = r'='
+t_PARENI  = r'\('
+t_PAREND  = r'\)'
+t_POTENCIA   = r'\^'
 t_GT      = r'\>'
 t_GE      = r'\>='
 t_LT      = r'\<'
@@ -58,12 +58,12 @@ t_AND     = r'\&\&'
 t_OR      = r'\|\|'
 t_NOT     = r'\!'
 
-def t_NAME(t):
+def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value,'NAME')    # Check for reserved words
+    t.type = reserved.get(t.value,'ID')    # Check for reserved words
     return t
 
-def t_NUMBER(t):
+def t_NUMERO(t):
     r'\.\d+|\d+(\.\d+)?'
     try:
         t.value = float(t.value)
@@ -90,10 +90,10 @@ lex.lex()
 # Parsing rules
 
 precedence = (
-    ('left','PLUS','MINUS'),
-    ('left','TIMES','DIVIDE'),
-    ('left','POWER'),
-    ('right','UMINUS'),
+    ('left','MAS','MENOS'),
+    ('left','MULTIPLICACION','DIVISION'),
+    ('left','POTENCIA'),
+    ('right','UMENOS'),
     ('left','OR'),
     ('left','AND'),
     ('right','NOT'),
@@ -108,7 +108,7 @@ names = { }
 #start='programa'
 
 def p_test_test_test(t):
-    'test_test_test : lista_funciones expression'
+    'test_test_test : lista_funciones expresion'
 
     lista_funciones = t[1]
     expresion = t[2]
@@ -130,10 +130,10 @@ def p_programa(t):
     'programa : lista_funciones plot'
 
 def p_plot(t):
-    'plot : PLOT LPAREN expression COMA expression RPAREN FOR NAME EQUALS rango'
+    'plot : PLOT PARENI expresion COMA expresion PAREND FOR ID ASIGNACION rango'
 
 def p_rango(t):
-    'rango : expression PP expression PP expression'
+    'rango : expresion PP expresion PP expresion'
 
 def p_lambda(p):
     'lambda :'
@@ -144,7 +144,7 @@ def p_lista_expresiones_vacia(t):
     t[0] = []
 
 def p_lista_expresiones_no_vacia(t):
-    'lista_expresiones : expression lista_expresiones_aux'
+    'lista_expresiones : expresion lista_expresiones_aux'
     t[0] = [t[1]] + t[2]
 
 def p_lista_expresiones_aux_vacia(t):
@@ -152,7 +152,7 @@ def p_lista_expresiones_aux_vacia(t):
     t[0] = []
 
 def p_lista_expresiones_aux_no_vacia(t):
-    'lista_expresiones_aux : COMA expression lista_expresiones_aux'
+    'lista_expresiones_aux : COMA expresion lista_expresiones_aux'
     t[0] = [t[2]] + t[3]
 
 def p_lista_nombres_vacia(t):
@@ -160,7 +160,7 @@ def p_lista_nombres_vacia(t):
     t[0] = []
 
 def p_lista_nombres_no_vacia(t):
-    'lista_nombres : NAME lista_nombres_aux'
+    'lista_nombres : ID lista_nombres_aux'
     t[0] = [t[1]] + t[2]
 
 def p_lista_nombres_aux_vacia(t):
@@ -168,7 +168,7 @@ def p_lista_nombres_aux_vacia(t):
     t[0] = []
 
 def p_lista_nombres_aux_no_vacia(t):
-    'lista_nombres_aux : COMA NAME lista_nombres_aux'
+    'lista_nombres_aux : COMA ID lista_nombres_aux'
     t[0] = [t[2]] + t[3]
 
 def p_lista_funciones(t):
@@ -180,23 +180,23 @@ def p_lista_funciones_recursiva(t):
     t[0] = [t[1]] + t[2]
 
 def p_funcion(t):
-    'funcion : FUNCTION NAME LPAREN lista_nombres RPAREN bloque' 
+    'funcion : FUNCTION ID PARENI lista_nombres PAREND bloque' 
     t[0] = st.DeclararFuncion(t[2], t[4], t[6])
 
 def p_instruccion_return(t):
-    'instruccion : RETURN expression'
+    'instruccion : RETURN expresion'
     t[0] = st.Return(t[2])
 
 def p_instruccion_asig(t):
-    'instruccion : NAME EQUALS expression'
+    'instruccion : ID ASIGNACION expresion'
     t[0] = st.Asignacion(t[1], t[3])
 
 def p_instruccion_while(t):
-    'instruccion : WHILE COMP bloque'
+    'instruccion : WHILE COND bloque'
     t[0] = st.While(t[2], t[3])
 
 def p_instruccion_ifthen(t):
-    'instruccion : IF COMP THEN bloque else'
+    'instruccion : IF COND THEN bloque else'
     t[0] = st.If(t[2], t[4], t[5])
 
 def p_else_no_vacio(t):
@@ -231,57 +231,57 @@ def p_lista_instrucciones_muchas(t):
     'lista_instrucciones : instruccion lista_instrucciones'
     t[0] = [t[1]] + t[2]
 
-def p_expression_funcion(t):
-    'expression : NAME LPAREN lista_expresiones RPAREN'
+def p_expresion_funcion(t):
+    'expresion : ID PARENI lista_expresiones PAREND'
     t[0] = st.LlamarFuncion(t[1], t[3]) 
 
-def p_expression_binop(t):
-    '''expression : expression PLUS expression
-                  | expression MINUS expression
-                  | expression TIMES expression
-                  | expression DIVIDE expression
-                  | expression POWER expression'''
+def p_expresion_binop(t):
+    '''expresion : expresion MAS expresion
+                  | expresion MENOS expresion
+                  | expresion MULTIPLICACION expresion
+                  | expresion DIVISION expresion
+                  | expresion POTENCIA expresion'''
     t[0] = st.OperadorBinario(t[2], t[1], t[3])
 
 def p_comparison_binop(t):
-    '''COMP : expression LE expression
-            | expression LT expression
-            | expression GE expression
-            | expression GT expression
-            | expression NE expression
-            | expression EQ expression'''
+    '''COND : expresion LE expresion
+            | expresion LT expresion
+            | expresion GE expresion
+            | expresion GT expresion
+            | expresion NE expresion
+            | expresion EQ expresion'''
     t[0] = st.OperadorBinario(t[2], t[1], t[3])
 
 def p_and(t):
-    'COMP : COMP AND COMP'
+    'COND : COND AND COND'
     t[0] = st.OperadorBinario('and', t[1], t[3])
 
 def p_or(t):
-    'COMP : COMP OR COMP'
+    'COND : COND OR COND'
     t[0] = st.OperadorBinario('or', t[1], t[3])
 
 def p_cond_paren(t):
-    'COMP : LPAREN COMP RPAREN'
+    'COND : PARENI COND PAREND'
     t[0] = t[2]
 
 def p_cond_not(t):
-    'COMP : NOT COMP'
+    'COND : NOT COND'
     t[0] = st.Not(t[2])
 
-def p_expression_uminus(t):
-    'expression : MINUS expression %prec UMINUS'
+def p_expresion_uminus(t):
+    'expresion : MENOS expresion %prec UMENOS'
     t[0] = st.Neg(t[2])
 
-def p_expression_group(t):
-    'expression : LPAREN expression RPAREN'
+def p_expresion_group(t):
+    'expresion : PARENI expresion PAREND'
     t[0] = t[2]
 
-def p_expression_number(t):
-    'expression : NUMBER'
+def p_expresion_number(t):
+    'expresion : NUMERO'
     t[0] = st.Constante(t[1])
 
-def p_expression_name(t):
-    'expression : NAME'
+def p_expresion_name(t):
+    'expresion : ID'
     t[0] = st.Variable(t[1])
 
 def p_error(t):

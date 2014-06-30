@@ -4,11 +4,11 @@ function pot(b, x) {
         x = x - 1
 		y = b * y
     }
-	return y
+    return y
 }
 
 function factorial(n) {
-	if n == 0
+     if n == 1
 	 then return 1
      else return n * factorial(n - 1)
 }
