@@ -13,4 +13,10 @@ function factorial(n) {
      else return n * factorial(n - 1)
 }
 
-factorial(5) * pot(10, 2) * 89 
+function id(x) {
+   x = x - 1
+   x = x + 1
+   return x
+}
+
+plot (pot(x,x),id(x+1)) for x=1..1..10

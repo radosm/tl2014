@@ -7,10 +7,12 @@
 # -----------------------------------------------------------------------------
 
 import syntax_tree as st
+import math
 
 # Palabras reservadas
 
 reserved = {
+   'pi' : 'PI',
    'if' : 'IF',
    'then' : 'THEN',
    'else' : 'ELSE',
@@ -105,7 +107,7 @@ precedence = (
 names = { }
 
 # Simbolo distinguido
-#start='programa'
+start='programa'
 
 def p_test_test_test(t):
     'test_test_test : lista_funciones expresion'
@@ -128,12 +130,16 @@ def p_test_test_test(t):
 
 def p_programa(t):
     'programa : lista_funciones plot'
+    contexto = st.Contexto()
 
 def p_plot(t):
-    'plot : PLOT PARENI expresion COMA expresion PAREND FOR ID ASIGNACION rango'
+    'plot : PLOT PARENI llamado_a_funcion COMA llamado_a_funcion PAREND FOR ID ASIGNACION rango'
 
+    st.Plot(t[3],t[5],t[8],t[10]).evaluar(contexto)
+    
 def p_rango(t):
     'rango : expresion PP expresion PP expresion'
+    t[0] = st.Rango(t[1],t[3],t[5])
 
 def p_lambda(p):
     'lambda :'
@@ -231,9 +237,13 @@ def p_lista_instrucciones_muchas(t):
     'lista_instrucciones : instruccion lista_instrucciones'
     t[0] = [t[1]] + t[2]
 
-def p_expresion_funcion(t):
-    'expresion : ID PARENI lista_expresiones PAREND'
+def p_llamado_a_funcion(t):
+    'llamado_a_funcion : ID PARENI lista_expresiones PAREND'
     t[0] = st.LlamarFuncion(t[1], t[3]) 
+
+def p_expresion_funcion(t):
+    'expresion : llamado_a_funcion'
+    t[0] = t[1]
 
 def p_expresion_binop(t):
     '''expresion : expresion MAS expresion
@@ -276,8 +286,13 @@ def p_expresion_group(t):
     'expresion : PARENI expresion PAREND'
     t[0] = t[2]
 
+def p_expresion_pi(t):
+    'pi : PI'
+    t[0] = math.pi
+
 def p_expresion_number(t):
-    'expresion : NUMERO'
+    '''expresion : NUMERO
+                 | pi'''
     t[0] = st.Constante(t[1])
 
 def p_expresion_name(t):

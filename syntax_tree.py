@@ -221,6 +221,56 @@ class While(object):
         while self.cond.evaluar(contexto):
             self.bloque.evaluar(contexto)
 
+class Plot(object):
+    
+    def __init__(self, llamado_f1, llamado_f2, id, rango):
+        self.llamado_f1 = llamado_f1
+        self.llamado_f2 = llamado_f2
+        self.id = id
+        self.rango = rango
+
+    def evaluar(self, contexto):
+        ##f1=self.llamado_f1.name
+        ##f2=self.llamado_f2.name
+        d=self.rango.d.evaluar(contexto)
+        h=self.rango.h.evaluar(contexto)
+        s=self.rango.salto.evaluar(contexto)
+        i=d
+
+        
+        #if len(nombres_parametros) != len(self.parametros):
+        #    raise Exception('No coincide la aridad para la funcion "' + self.name + '"')
+
+        #contexto2 = contexto.copia()
+        
+        #try:
+        #    bloque.evaluar(contexto2)
+        #except ReturnCondition as ret:
+        #    return ret.valor
+
+        # si llego aca es que la funcion no tenia return
+        #raise Exception('La funcion "' + self.name + '" no tiene return')
+        (nombres_parametros_f1, bloque_f1) = contexto.buscar_funcion(self.llamado_f1.name)
+        (nombres_parametros_f2, bloque_f2) = contexto.buscar_funcion(self.llamado_f2.name)
+
+        while(i<=h):
+            contexto2=contexto.copia()
+	    contexto2.asignar(self.id,i)
+            for n, p in zip(nombres_parametros, self.parametros):
+                contexto2.asignar(n, p.evaluar(contexto))
+
+            x=f1.evaluar(contexto2)
+            y=f2.evaluar(contexto2)
+            print(x + " ,  " + y)
+            i=i+s
+
+class Rango(object):
+    
+    def __init__(self, d, salto, h):
+        self.d = d
+        self.salto = salto
+        self.h = h
+
 class DeclararFuncion(object):
 
     def __init__(self, name, parametros, bloque):
@@ -255,3 +305,9 @@ class Return(object):
     def evaluar(self, contexto):
         raise ReturnCondition(self.expresion.evaluar(contexto))
 
+class Programa(object):
+
+    def __init__(self, lista_funciones, plot):
+	
+
+t[0] = st.Programa(t[1], t[2])
