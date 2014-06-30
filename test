@@ -1,0 +1,16 @@
+function pot(b, x) {
+	y = 1
+    while x > 0 {
+        x = x - 1
+		y = b * y
+    }
+	return y
+}
+
+function factorial(n) {
+	if n == 0
+	 then return 1
+     else return n * factorial(n - 1)
+}
+
+factorial(5) * pot(10, 2)

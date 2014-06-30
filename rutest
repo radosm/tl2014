@@ -1,4 +1,4 @@
-rm parse*
+rm -f parse*
 ls codigosDeCurvas | while read a
 do
   echo $a
