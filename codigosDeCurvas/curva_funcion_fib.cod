@@ -1,0 +1,11 @@
+function id(x)
+	return x
+
+function fib(n) {
+	if n==0 || n==1 then
+		return n
+	else
+		return fib(n-1)+fib(n-2) 
+}
+
+plot (id(n), fib(n)) for n = 0..1..20 

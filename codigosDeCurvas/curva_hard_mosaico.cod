@@ -1,0 +1,58 @@
+function pow(x, n) {
+	res = 1
+	while n>0 {
+		res = res * x
+		n = n - 1
+	}
+	return res
+}
+
+function sin(t) {
+	/* good approximation for positive angles.. */
+	invres = 0
+	if t < 0 then {
+		invres = 1
+		t = -t
+	}
+	while t > pi
+		t = t - 2*pi
+	res = t-pow(t, 3)/6+pow(t,5)/120-pow(t,7)/5040+pow(t,9)/362880
+	if invres == 1 then
+		return -res
+	else
+		return res
+}
+
+function cos(t)
+	return sin(t+pi/2)
+
+function sgn(x)
+	if x < 0 then return -1 else return 1
+
+function abs(x)
+	if x >= 0 then return x else return -x
+
+function id(x)
+	return x
+
+function sqrt(x) {
+	precision = 0.00000001
+	res = x / 2
+	while abs(res*res - x) > precision
+	    res = (res + x / res) / 2
+	return res
+}
+
+function x(t) {
+	a = 100
+	b = 16
+	return (a-b) * cos(t) + b * cos(t*(a/b-1))
+}
+
+function y(t) {
+	a = 100
+	b = 16
+	return (a-b) * sin(t) + b * sin(t*(a/b-1))
+}
+
+plot (x(t), y(t)) for t=0..0.05..50*pi+0.1

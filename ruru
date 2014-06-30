@@ -1,0 +1,2 @@
+rm parse*
+python mylanga.py $*

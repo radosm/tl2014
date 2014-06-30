@@ -1,0 +1,17 @@
+function sum(x, y) {
+	return (x+(y))
+}
+
+function double(variable) return sum(variable, variable)
+
+plot (id(x),double(x)) for x=0..1/2..10
+
+
+/*
+Error esperado:
+Runtime Error: function to plot not defined
+*/
+
+
+
+

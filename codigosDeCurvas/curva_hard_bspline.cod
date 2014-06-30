@@ -1,0 +1,112 @@
+function controlPointx(i)
+ if i==0 then return 48
+  else if i==1 then return 89
+  else if i==2 then return 90
+  else if i==3 then return 108
+  else if i==4 then return 149
+  else if i==5 then return 157
+  else if i==6 then return 168
+  else if i==7 then return 247
+  else if i==8 then return 259
+  else if i==9 then return 282
+  else if i==10 then return 278
+  else if i==11 then return 223
+  else if i==12 then return 227
+  else if i==13 then return 213
+  else if i==14 then return 180
+  else if i==15 then return 173
+  else if i==16 then return 146
+  else if i==17 then return 130
+  else if i==18 then return 101
+  else if i==19 then return 110
+  else if i==20 then return 64
+  else if i==21 then return 46
+  else if i==22 then return 50
+  else if i==23 then return 83
+  else if i==24 then return 66
+  else if i==25 then return 46
+  else if i==26 then return 50
+
+function controlPointy(i)
+ if i==0 then return 480
+  else if i==1 then return 489
+  else if i==2 then return 437
+  else if i==3 then return 487
+  else if i==4 then return 492
+  else if i==5 then return 362
+  else if i==6 then return 496
+  else if i==7 then return 492
+  else if i==8 then return 301
+  else if i==9 then return 323
+  else if i==10 then return 285
+  else if i==11 then return 258
+  else if i==12 then return 408
+  else if i==13 then return 467
+  else if i==14 then return 465
+  else if i==15 then return 315
+  else if i==16 then return 315
+  else if i==17 then return 451
+  else if i==18 then return 422
+  else if i==19 then return 261
+  else if i==20 then return 253
+  else if i==21 then return 289
+  else if i==22 then return 325
+  else if i==23 then return 318
+  else if i==24 then return 458
+  else if i==25 then return 461
+  else if i==26 then return 479
+
+function knot(i, degree, vertexCount)	
+	if i < degree then
+		return 0
+	else if i > vertexCount then
+		return vertexCount - degree + 2
+	else
+		return i - degree + 1
+
+function base(u, i, k, degree, vertexCount) {
+	if k == 1 then {
+		if u < knot(i + 1, degree, vertexCount) && knot(i, degree, vertexCount) <= u then
+			return 1
+		else
+			return 0
+	} else {
+		n1 = (u - knot(i, degree, vertexCount)) * base(u, i, k - 1, degree, vertexCount)
+		n2 = (knot(i + k, degree, vertexCount) - u) * base(u, i + 1, k - 1, degree, vertexCount)
+		d1 = knot(i + k - 1, degree, vertexCount) - knot(i, degree, vertexCount)
+		d2 = knot(i + k, degree, vertexCount) - knot(i + 1, degree, vertexCount)
+		if d1 == 0 then
+			c1 = 0
+		else
+			c1 = n1 / d1
+		
+		if d2 == 0 then
+			c2 = 0
+		else
+			c2 = n2 / d2
+		return c1 + c2
+	}
+}
+
+function bsplinex(t) {
+	x = 0
+	j = 0
+	while j <= 26 {
+		x = x + controlPointx(j) * base(t, j, 3, 3, 25)
+		j = j + 1
+	}
+	return x
+}
+
+function bspliney(t) {
+	y = 0
+	j = 0
+	while j <= 26 {
+		y = y + controlPointy(j) * base(t, j, 3, 3, 25)
+		j = j + 1
+	}
+	return y
+}
+
+/*plot (controlPointx(i), controlPointy(i)) for i=0..1..27 para ver los puntos de control */
+plot (bsplinex(i), bspliney(i)) for i=0.01..0.5..24

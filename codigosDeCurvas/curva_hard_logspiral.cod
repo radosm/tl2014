@@ -1,0 +1,39 @@
+function pow(x, n) {
+	res = 1
+	while n>0 {
+		res = res * x
+		n = n - 1
+	}
+	return res
+}
+
+function exp(x) {
+	return x+pow(x,2)/2+pow(x,3)/2/3+pow(x, 4)/2/3/4+pow(x,5)/2/3/4/5+pow(x,6)/2/3/4/5/6+pow(x,7)/2/3/4/5/6/7
+}
+
+function sin(x) {
+	/* good approximation for positive angles.. */
+	while x > pi
+		x = x - 2*pi
+	return x-pow(x, 3)/6+pow(x,5)/120-pow(x,7)/5040+pow(x,9)/362880
+}
+
+function cos(x)
+	return sin(x+pi/2)
+
+function sgn(x)
+	if x < 0 then return -1 else return 1
+
+function abs(x)
+	if x >= 0 then return x else return -x
+
+function id(x)
+	return x
+
+function x(t)
+	return exp(t)*cos(t)
+
+function y(t)
+	return exp(t)*sin(t)
+
+plot (x(t), y(t)) for t=0..0.1..30

@@ -1,0 +1,2146 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> lista_funciones plot
+Rule 2     plot -> PLOT LPAREN expression COMA expression RPAREN FOR NAME EQUALS rango
+Rule 3     rango -> expression PP expression PP expression
+Rule 4     lambda -> <empty>
+Rule 5     lista_expresiones -> expression lista_expresiones_aux
+Rule 6     lista_expresiones -> lambda
+Rule 7     lista_expresiones_aux -> COMA expression lista_expresiones_aux
+Rule 8     lista_expresiones_aux -> lambda
+Rule 9     lista_nombres -> NAME lista_nombres_aux
+Rule 10    lista_nombres -> lambda
+Rule 11    lista_nombres_aux -> COMA NAME lista_nombres_aux
+Rule 12    lista_nombres_aux -> lambda
+Rule 13    lista_funciones -> funcion
+Rule 14    lista_funciones -> funcion lista_funciones
+Rule 15    funcion -> FUNCTION NAME LPAREN lista_nombres RPAREN bloque
+Rule 16    instruccion -> RETURN expression
+Rule 17    instruccion -> NAME EQUALS expression
+Rule 18    instruccion -> WHILE COMP bloque
+Rule 19    instruccion -> IF COMP THEN bloque else
+Rule 20    else -> ELSE bloque
+Rule 21    else -> lambda
+Rule 22    bloque -> instruccion
+Rule 23    bloque -> LLAVEI lista_instrucciones LLAVED
+Rule 24    lista_instrucciones -> instruccion
+Rule 25    lista_instrucciones -> instruccion lista_instrucciones
+Rule 26    expression -> NAME LPAREN lista_expresiones RPAREN
+Rule 27    expression -> expression PLUS expression
+Rule 28    expression -> expression MINUS expression
+Rule 29    expression -> expression TIMES expression
+Rule 30    expression -> expression DIVIDE expression
+Rule 31    expression -> expression POWER expression
+Rule 32    COMP -> expression LE expression
+Rule 33    COMP -> expression LT expression
+Rule 34    COMP -> expression GE expression
+Rule 35    COMP -> expression GT expression
+Rule 36    COMP -> expression NE expression
+Rule 37    COMP -> expression EQ expression
+Rule 38    COMP -> COMP AND COMP
+Rule 39    COMP -> COMP OR COMP
+Rule 40    COMP -> LPAREN COMP RPAREN
+Rule 41    COMP -> NOT COMP
+Rule 42    expression -> MINUS expression
+Rule 43    expression -> LPAREN expression RPAREN
+Rule 44    expression -> NUMBER
+Rule 45    expression -> NAME
+
+Terminals, with rules where they appear
+
+AND                  : 38
+COMA                 : 2 7 11
+DIVIDE               : 30
+ELSE                 : 20
+EQ                   : 37
+EQUALS               : 2 17
+FOR                  : 2
+FUNCTION             : 15
+GE                   : 34
+GT                   : 35
+IF                   : 19
+LE                   : 32
+LLAVED               : 23
+LLAVEI               : 23
+LPAREN               : 2 15 26 40 43
+LT                   : 33
+MINUS                : 28 42
+NAME                 : 2 9 11 15 17 26 45
+NE                   : 36
+NOT                  : 41
+NUMBER               : 44
+OR                   : 39
+PLOT                 : 2
+PLUS                 : 27
+POWER                : 31
+PP                   : 3 3
+RETURN               : 16
+RPAREN               : 2 15 26 40 43
+THEN                 : 19
+TIMES                : 29
+WHILE                : 18
+error                : 
+
+Nonterminals, with rules where they appear
+
+COMP                 : 18 19 38 38 39 39 40 41
+bloque               : 15 18 19 20
+else                 : 19
+expression           : 2 2 3 3 3 5 7 16 17 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37 42 43
+funcion              : 13 14
+instruccion          : 22 24 25
+lambda               : 6 8 10 12 21
+lista_expresiones    : 26
+lista_expresiones_aux : 5 7
+lista_funciones      : 1 14
+lista_instrucciones  : 23 25
+lista_nombres        : 15
+lista_nombres_aux    : 9 11
+plot                 : 1
+programa             : 0
+rango                : 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . lista_funciones plot
+    (13) lista_funciones -> . funcion
+    (14) lista_funciones -> . funcion lista_funciones
+    (15) funcion -> . FUNCTION NAME LPAREN lista_nombres RPAREN bloque
+
+    FUNCTION        shift and go to state 1
+
+    programa                       shift and go to state 2
+    lista_funciones                shift and go to state 3
+    funcion                        shift and go to state 4
+
+state 1
+
+    (15) funcion -> FUNCTION . NAME LPAREN lista_nombres RPAREN bloque
+
+    NAME            shift and go to state 5
+
+
+state 2
+
+    (0) S' -> programa .
+
+
+
+state 3
+
+    (1) programa -> lista_funciones . plot
+    (2) plot -> . PLOT LPAREN expression COMA expression RPAREN FOR NAME EQUALS rango
+
+    PLOT            shift and go to state 7
+
+    plot                           shift and go to state 6
+
+state 4
+
+    (13) lista_funciones -> funcion .
+    (14) lista_funciones -> funcion . lista_funciones
+    (13) lista_funciones -> . funcion
+    (14) lista_funciones -> . funcion lista_funciones
+    (15) funcion -> . FUNCTION NAME LPAREN lista_nombres RPAREN bloque
+
+    PLOT            reduce using rule 13 (lista_funciones -> funcion .)
+    FUNCTION        shift and go to state 1
+
+    lista_funciones                shift and go to state 8
+    funcion                        shift and go to state 4
+
+state 5
+
+    (15) funcion -> FUNCTION NAME . LPAREN lista_nombres RPAREN bloque
+
+    LPAREN          shift and go to state 9
+
+
+state 6
+
+    (1) programa -> lista_funciones plot .
+
+    $end            reduce using rule 1 (programa -> lista_funciones plot .)
+
+
+state 7
+
+    (2) plot -> PLOT . LPAREN expression COMA expression RPAREN FOR NAME EQUALS rango
+
+    LPAREN          shift and go to state 10
+
+
+state 8
+
+    (14) lista_funciones -> funcion lista_funciones .
+
+    PLOT            reduce using rule 14 (lista_funciones -> funcion lista_funciones .)
+
+
+state 9
+
+    (15) funcion -> FUNCTION NAME LPAREN . lista_nombres RPAREN bloque
+    (9) lista_nombres -> . NAME lista_nombres_aux
+    (10) lista_nombres -> . lambda
+    (4) lambda -> .
+
+    NAME            shift and go to state 11
+    RPAREN          reduce using rule 4 (lambda -> .)
+
+    lambda                         shift and go to state 13
+    lista_nombres                  shift and go to state 12
+
+state 10
+
+    (2) plot -> PLOT LPAREN . expression COMA expression RPAREN FOR NAME EQUALS rango
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 17
+
+state 11
+
+    (9) lista_nombres -> NAME . lista_nombres_aux
+    (11) lista_nombres_aux -> . COMA NAME lista_nombres_aux
+    (12) lista_nombres_aux -> . lambda
+    (4) lambda -> .
+
+    COMA            shift and go to state 20
+    RPAREN          reduce using rule 4 (lambda -> .)
+
+    lista_nombres_aux              shift and go to state 19
+    lambda                         shift and go to state 21
+
+state 12
+
+    (15) funcion -> FUNCTION NAME LPAREN lista_nombres . RPAREN bloque
+
+    RPAREN          shift and go to state 22
+
+
+state 13
+
+    (10) lista_nombres -> lambda .
+
+    RPAREN          reduce using rule 10 (lista_nombres -> lambda .)
+
+
+state 14
+
+    (26) expression -> NAME . LPAREN lista_expresiones RPAREN
+    (45) expression -> NAME .
+
+    LPAREN          shift and go to state 23
+    LE              reduce using rule 45 (expression -> NAME .)
+    LT              reduce using rule 45 (expression -> NAME .)
+    GE              reduce using rule 45 (expression -> NAME .)
+    GT              reduce using rule 45 (expression -> NAME .)
+    NE              reduce using rule 45 (expression -> NAME .)
+    EQ              reduce using rule 45 (expression -> NAME .)
+    PLUS            reduce using rule 45 (expression -> NAME .)
+    MINUS           reduce using rule 45 (expression -> NAME .)
+    TIMES           reduce using rule 45 (expression -> NAME .)
+    DIVIDE          reduce using rule 45 (expression -> NAME .)
+    POWER           reduce using rule 45 (expression -> NAME .)
+    COMA            reduce using rule 45 (expression -> NAME .)
+    RPAREN          reduce using rule 45 (expression -> NAME .)
+    FUNCTION        reduce using rule 45 (expression -> NAME .)
+    PLOT            reduce using rule 45 (expression -> NAME .)
+    RETURN          reduce using rule 45 (expression -> NAME .)
+    NAME            reduce using rule 45 (expression -> NAME .)
+    WHILE           reduce using rule 45 (expression -> NAME .)
+    IF              reduce using rule 45 (expression -> NAME .)
+    LLAVED          reduce using rule 45 (expression -> NAME .)
+    ELSE            reduce using rule 45 (expression -> NAME .)
+    AND             reduce using rule 45 (expression -> NAME .)
+    OR              reduce using rule 45 (expression -> NAME .)
+    LLAVEI          reduce using rule 45 (expression -> NAME .)
+    THEN            reduce using rule 45 (expression -> NAME .)
+    PP              reduce using rule 45 (expression -> NAME .)
+    $end            reduce using rule 45 (expression -> NAME .)
+
+
+state 15
+
+    (44) expression -> NUMBER .
+
+    LE              reduce using rule 44 (expression -> NUMBER .)
+    LT              reduce using rule 44 (expression -> NUMBER .)
+    GE              reduce using rule 44 (expression -> NUMBER .)
+    GT              reduce using rule 44 (expression -> NUMBER .)
+    NE              reduce using rule 44 (expression -> NUMBER .)
+    EQ              reduce using rule 44 (expression -> NUMBER .)
+    PLUS            reduce using rule 44 (expression -> NUMBER .)
+    MINUS           reduce using rule 44 (expression -> NUMBER .)
+    TIMES           reduce using rule 44 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 44 (expression -> NUMBER .)
+    POWER           reduce using rule 44 (expression -> NUMBER .)
+    COMA            reduce using rule 44 (expression -> NUMBER .)
+    RPAREN          reduce using rule 44 (expression -> NUMBER .)
+    FUNCTION        reduce using rule 44 (expression -> NUMBER .)
+    PLOT            reduce using rule 44 (expression -> NUMBER .)
+    RETURN          reduce using rule 44 (expression -> NUMBER .)
+    NAME            reduce using rule 44 (expression -> NUMBER .)
+    WHILE           reduce using rule 44 (expression -> NUMBER .)
+    IF              reduce using rule 44 (expression -> NUMBER .)
+    LLAVED          reduce using rule 44 (expression -> NUMBER .)
+    ELSE            reduce using rule 44 (expression -> NUMBER .)
+    AND             reduce using rule 44 (expression -> NUMBER .)
+    OR              reduce using rule 44 (expression -> NUMBER .)
+    LLAVEI          reduce using rule 44 (expression -> NUMBER .)
+    THEN            reduce using rule 44 (expression -> NUMBER .)
+    PP              reduce using rule 44 (expression -> NUMBER .)
+    $end            reduce using rule 44 (expression -> NUMBER .)
+
+
+state 16
+
+    (43) expression -> LPAREN . expression RPAREN
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 24
+
+state 17
+
+    (2) plot -> PLOT LPAREN expression . COMA expression RPAREN FOR NAME EQUALS rango
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    COMA            shift and go to state 27
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 18
+
+    (42) expression -> MINUS . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 31
+
+state 19
+
+    (9) lista_nombres -> NAME lista_nombres_aux .
+
+    RPAREN          reduce using rule 9 (lista_nombres -> NAME lista_nombres_aux .)
+
+
+state 20
+
+    (11) lista_nombres_aux -> COMA . NAME lista_nombres_aux
+
+    NAME            shift and go to state 32
+
+
+state 21
+
+    (12) lista_nombres_aux -> lambda .
+
+    RPAREN          reduce using rule 12 (lista_nombres_aux -> lambda .)
+
+
+state 22
+
+    (15) funcion -> FUNCTION NAME LPAREN lista_nombres RPAREN . bloque
+    (22) bloque -> . instruccion
+    (23) bloque -> . LLAVEI lista_instrucciones LLAVED
+    (16) instruccion -> . RETURN expression
+    (17) instruccion -> . NAME EQUALS expression
+    (18) instruccion -> . WHILE COMP bloque
+    (19) instruccion -> . IF COMP THEN bloque else
+
+    LLAVEI          shift and go to state 37
+    RETURN          shift and go to state 33
+    NAME            shift and go to state 34
+    WHILE           shift and go to state 36
+    IF              shift and go to state 39
+
+    instruccion                    shift and go to state 35
+    bloque                         shift and go to state 38
+
+state 23
+
+    (26) expression -> NAME LPAREN . lista_expresiones RPAREN
+    (5) lista_expresiones -> . expression lista_expresiones_aux
+    (6) lista_expresiones -> . lambda
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+    (4) lambda -> .
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+    RPAREN          reduce using rule 4 (lambda -> .)
+
+    expression                     shift and go to state 41
+    lambda                         shift and go to state 42
+    lista_expresiones              shift and go to state 40
+
+state 24
+
+    (43) expression -> LPAREN expression . RPAREN
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    RPAREN          shift and go to state 43
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 25
+
+    (29) expression -> expression TIMES . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 44
+
+state 26
+
+    (27) expression -> expression PLUS . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 45
+
+state 27
+
+    (2) plot -> PLOT LPAREN expression COMA . expression RPAREN FOR NAME EQUALS rango
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 46
+
+state 28
+
+    (31) expression -> expression POWER . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 47
+
+state 29
+
+    (28) expression -> expression MINUS . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 48
+
+state 30
+
+    (30) expression -> expression DIVIDE . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 49
+
+state 31
+
+    (42) expression -> MINUS expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    LE              reduce using rule 42 (expression -> MINUS expression .)
+    LT              reduce using rule 42 (expression -> MINUS expression .)
+    GE              reduce using rule 42 (expression -> MINUS expression .)
+    GT              reduce using rule 42 (expression -> MINUS expression .)
+    NE              reduce using rule 42 (expression -> MINUS expression .)
+    EQ              reduce using rule 42 (expression -> MINUS expression .)
+    PLUS            reduce using rule 42 (expression -> MINUS expression .)
+    MINUS           reduce using rule 42 (expression -> MINUS expression .)
+    TIMES           reduce using rule 42 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 42 (expression -> MINUS expression .)
+    POWER           reduce using rule 42 (expression -> MINUS expression .)
+    COMA            reduce using rule 42 (expression -> MINUS expression .)
+    RPAREN          reduce using rule 42 (expression -> MINUS expression .)
+    FUNCTION        reduce using rule 42 (expression -> MINUS expression .)
+    PLOT            reduce using rule 42 (expression -> MINUS expression .)
+    RETURN          reduce using rule 42 (expression -> MINUS expression .)
+    NAME            reduce using rule 42 (expression -> MINUS expression .)
+    WHILE           reduce using rule 42 (expression -> MINUS expression .)
+    IF              reduce using rule 42 (expression -> MINUS expression .)
+    LLAVED          reduce using rule 42 (expression -> MINUS expression .)
+    ELSE            reduce using rule 42 (expression -> MINUS expression .)
+    AND             reduce using rule 42 (expression -> MINUS expression .)
+    OR              reduce using rule 42 (expression -> MINUS expression .)
+    LLAVEI          reduce using rule 42 (expression -> MINUS expression .)
+    THEN            reduce using rule 42 (expression -> MINUS expression .)
+    PP              reduce using rule 42 (expression -> MINUS expression .)
+    $end            reduce using rule 42 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 26 ]
+  ! MINUS           [ shift and go to state 29 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! DIVIDE          [ shift and go to state 30 ]
+  ! POWER           [ shift and go to state 28 ]
+
+
+state 32
+
+    (11) lista_nombres_aux -> COMA NAME . lista_nombres_aux
+    (11) lista_nombres_aux -> . COMA NAME lista_nombres_aux
+    (12) lista_nombres_aux -> . lambda
+    (4) lambda -> .
+
+    COMA            shift and go to state 20
+    RPAREN          reduce using rule 4 (lambda -> .)
+
+    lista_nombres_aux              shift and go to state 50
+    lambda                         shift and go to state 21
+
+state 33
+
+    (16) instruccion -> RETURN . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 51
+
+state 34
+
+    (17) instruccion -> NAME . EQUALS expression
+
+    EQUALS          shift and go to state 52
+
+
+state 35
+
+    (22) bloque -> instruccion .
+
+    FUNCTION        reduce using rule 22 (bloque -> instruccion .)
+    PLOT            reduce using rule 22 (bloque -> instruccion .)
+    RETURN          reduce using rule 22 (bloque -> instruccion .)
+    NAME            reduce using rule 22 (bloque -> instruccion .)
+    WHILE           reduce using rule 22 (bloque -> instruccion .)
+    IF              reduce using rule 22 (bloque -> instruccion .)
+    LLAVED          reduce using rule 22 (bloque -> instruccion .)
+    ELSE            reduce using rule 22 (bloque -> instruccion .)
+
+
+state 36
+
+    (18) instruccion -> WHILE . COMP bloque
+    (32) COMP -> . expression LE expression
+    (33) COMP -> . expression LT expression
+    (34) COMP -> . expression GE expression
+    (35) COMP -> . expression GT expression
+    (36) COMP -> . expression NE expression
+    (37) COMP -> . expression EQ expression
+    (38) COMP -> . COMP AND COMP
+    (39) COMP -> . COMP OR COMP
+    (40) COMP -> . LPAREN COMP RPAREN
+    (41) COMP -> . NOT COMP
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    LPAREN          shift and go to state 54
+    NOT             shift and go to state 55
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    NUMBER          shift and go to state 15
+
+    COMP                           shift and go to state 53
+    expression                     shift and go to state 56
+
+state 37
+
+    (23) bloque -> LLAVEI . lista_instrucciones LLAVED
+    (24) lista_instrucciones -> . instruccion
+    (25) lista_instrucciones -> . instruccion lista_instrucciones
+    (16) instruccion -> . RETURN expression
+    (17) instruccion -> . NAME EQUALS expression
+    (18) instruccion -> . WHILE COMP bloque
+    (19) instruccion -> . IF COMP THEN bloque else
+
+    RETURN          shift and go to state 33
+    NAME            shift and go to state 34
+    WHILE           shift and go to state 36
+    IF              shift and go to state 39
+
+    instruccion                    shift and go to state 57
+    lista_instrucciones            shift and go to state 58
+
+state 38
+
+    (15) funcion -> FUNCTION NAME LPAREN lista_nombres RPAREN bloque .
+
+    FUNCTION        reduce using rule 15 (funcion -> FUNCTION NAME LPAREN lista_nombres RPAREN bloque .)
+    PLOT            reduce using rule 15 (funcion -> FUNCTION NAME LPAREN lista_nombres RPAREN bloque .)
+
+
+state 39
+
+    (19) instruccion -> IF . COMP THEN bloque else
+    (32) COMP -> . expression LE expression
+    (33) COMP -> . expression LT expression
+    (34) COMP -> . expression GE expression
+    (35) COMP -> . expression GT expression
+    (36) COMP -> . expression NE expression
+    (37) COMP -> . expression EQ expression
+    (38) COMP -> . COMP AND COMP
+    (39) COMP -> . COMP OR COMP
+    (40) COMP -> . LPAREN COMP RPAREN
+    (41) COMP -> . NOT COMP
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    LPAREN          shift and go to state 54
+    NOT             shift and go to state 55
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    NUMBER          shift and go to state 15
+
+    COMP                           shift and go to state 59
+    expression                     shift and go to state 56
+
+state 40
+
+    (26) expression -> NAME LPAREN lista_expresiones . RPAREN
+
+    RPAREN          shift and go to state 60
+
+
+state 41
+
+    (5) lista_expresiones -> expression . lista_expresiones_aux
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+    (7) lista_expresiones_aux -> . COMA expression lista_expresiones_aux
+    (8) lista_expresiones_aux -> . lambda
+    (4) lambda -> .
+
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+    COMA            shift and go to state 62
+    RPAREN          reduce using rule 4 (lambda -> .)
+
+    lambda                         shift and go to state 63
+    lista_expresiones_aux          shift and go to state 61
+
+state 42
+
+    (6) lista_expresiones -> lambda .
+
+    RPAREN          reduce using rule 6 (lista_expresiones -> lambda .)
+
+
+state 43
+
+    (43) expression -> LPAREN expression RPAREN .
+
+    LE              reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    LT              reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    GE              reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    GT              reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    NE              reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    EQ              reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    POWER           reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    COMA            reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    FUNCTION        reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    PLOT            reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    RETURN          reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    NAME            reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    WHILE           reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    IF              reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    LLAVED          reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    ELSE            reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    AND             reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    OR              reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    LLAVEI          reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    THEN            reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    PP              reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+    $end            reduce using rule 43 (expression -> LPAREN expression RPAREN .)
+
+
+state 44
+
+    (29) expression -> expression TIMES expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    LE              reduce using rule 29 (expression -> expression TIMES expression .)
+    LT              reduce using rule 29 (expression -> expression TIMES expression .)
+    GE              reduce using rule 29 (expression -> expression TIMES expression .)
+    GT              reduce using rule 29 (expression -> expression TIMES expression .)
+    NE              reduce using rule 29 (expression -> expression TIMES expression .)
+    EQ              reduce using rule 29 (expression -> expression TIMES expression .)
+    PLUS            reduce using rule 29 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 29 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 29 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 29 (expression -> expression TIMES expression .)
+    COMA            reduce using rule 29 (expression -> expression TIMES expression .)
+    RPAREN          reduce using rule 29 (expression -> expression TIMES expression .)
+    FUNCTION        reduce using rule 29 (expression -> expression TIMES expression .)
+    PLOT            reduce using rule 29 (expression -> expression TIMES expression .)
+    RETURN          reduce using rule 29 (expression -> expression TIMES expression .)
+    NAME            reduce using rule 29 (expression -> expression TIMES expression .)
+    WHILE           reduce using rule 29 (expression -> expression TIMES expression .)
+    IF              reduce using rule 29 (expression -> expression TIMES expression .)
+    LLAVED          reduce using rule 29 (expression -> expression TIMES expression .)
+    ELSE            reduce using rule 29 (expression -> expression TIMES expression .)
+    AND             reduce using rule 29 (expression -> expression TIMES expression .)
+    OR              reduce using rule 29 (expression -> expression TIMES expression .)
+    LLAVEI          reduce using rule 29 (expression -> expression TIMES expression .)
+    THEN            reduce using rule 29 (expression -> expression TIMES expression .)
+    PP              reduce using rule 29 (expression -> expression TIMES expression .)
+    $end            reduce using rule 29 (expression -> expression TIMES expression .)
+    POWER           shift and go to state 28
+
+  ! POWER           [ reduce using rule 29 (expression -> expression TIMES expression .) ]
+  ! PLUS            [ shift and go to state 26 ]
+  ! MINUS           [ shift and go to state 29 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! DIVIDE          [ shift and go to state 30 ]
+
+
+state 45
+
+    (27) expression -> expression PLUS expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    LE              reduce using rule 27 (expression -> expression PLUS expression .)
+    LT              reduce using rule 27 (expression -> expression PLUS expression .)
+    GE              reduce using rule 27 (expression -> expression PLUS expression .)
+    GT              reduce using rule 27 (expression -> expression PLUS expression .)
+    NE              reduce using rule 27 (expression -> expression PLUS expression .)
+    EQ              reduce using rule 27 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 27 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 27 (expression -> expression PLUS expression .)
+    COMA            reduce using rule 27 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 27 (expression -> expression PLUS expression .)
+    FUNCTION        reduce using rule 27 (expression -> expression PLUS expression .)
+    PLOT            reduce using rule 27 (expression -> expression PLUS expression .)
+    RETURN          reduce using rule 27 (expression -> expression PLUS expression .)
+    NAME            reduce using rule 27 (expression -> expression PLUS expression .)
+    WHILE           reduce using rule 27 (expression -> expression PLUS expression .)
+    IF              reduce using rule 27 (expression -> expression PLUS expression .)
+    LLAVED          reduce using rule 27 (expression -> expression PLUS expression .)
+    ELSE            reduce using rule 27 (expression -> expression PLUS expression .)
+    AND             reduce using rule 27 (expression -> expression PLUS expression .)
+    OR              reduce using rule 27 (expression -> expression PLUS expression .)
+    LLAVEI          reduce using rule 27 (expression -> expression PLUS expression .)
+    THEN            reduce using rule 27 (expression -> expression PLUS expression .)
+    PP              reduce using rule 27 (expression -> expression PLUS expression .)
+    $end            reduce using rule 27 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+  ! TIMES           [ reduce using rule 27 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 27 (expression -> expression PLUS expression .) ]
+  ! POWER           [ reduce using rule 27 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 26 ]
+  ! MINUS           [ shift and go to state 29 ]
+
+
+state 46
+
+    (2) plot -> PLOT LPAREN expression COMA expression . RPAREN FOR NAME EQUALS rango
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    RPAREN          shift and go to state 64
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 47
+
+    (31) expression -> expression POWER expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    LE              reduce using rule 31 (expression -> expression POWER expression .)
+    LT              reduce using rule 31 (expression -> expression POWER expression .)
+    GE              reduce using rule 31 (expression -> expression POWER expression .)
+    GT              reduce using rule 31 (expression -> expression POWER expression .)
+    NE              reduce using rule 31 (expression -> expression POWER expression .)
+    EQ              reduce using rule 31 (expression -> expression POWER expression .)
+    PLUS            reduce using rule 31 (expression -> expression POWER expression .)
+    MINUS           reduce using rule 31 (expression -> expression POWER expression .)
+    TIMES           reduce using rule 31 (expression -> expression POWER expression .)
+    DIVIDE          reduce using rule 31 (expression -> expression POWER expression .)
+    POWER           reduce using rule 31 (expression -> expression POWER expression .)
+    COMA            reduce using rule 31 (expression -> expression POWER expression .)
+    RPAREN          reduce using rule 31 (expression -> expression POWER expression .)
+    FUNCTION        reduce using rule 31 (expression -> expression POWER expression .)
+    PLOT            reduce using rule 31 (expression -> expression POWER expression .)
+    RETURN          reduce using rule 31 (expression -> expression POWER expression .)
+    NAME            reduce using rule 31 (expression -> expression POWER expression .)
+    WHILE           reduce using rule 31 (expression -> expression POWER expression .)
+    IF              reduce using rule 31 (expression -> expression POWER expression .)
+    LLAVED          reduce using rule 31 (expression -> expression POWER expression .)
+    ELSE            reduce using rule 31 (expression -> expression POWER expression .)
+    AND             reduce using rule 31 (expression -> expression POWER expression .)
+    OR              reduce using rule 31 (expression -> expression POWER expression .)
+    LLAVEI          reduce using rule 31 (expression -> expression POWER expression .)
+    THEN            reduce using rule 31 (expression -> expression POWER expression .)
+    PP              reduce using rule 31 (expression -> expression POWER expression .)
+    $end            reduce using rule 31 (expression -> expression POWER expression .)
+
+  ! PLUS            [ shift and go to state 26 ]
+  ! MINUS           [ shift and go to state 29 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! DIVIDE          [ shift and go to state 30 ]
+  ! POWER           [ shift and go to state 28 ]
+
+
+state 48
+
+    (28) expression -> expression MINUS expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    LE              reduce using rule 28 (expression -> expression MINUS expression .)
+    LT              reduce using rule 28 (expression -> expression MINUS expression .)
+    GE              reduce using rule 28 (expression -> expression MINUS expression .)
+    GT              reduce using rule 28 (expression -> expression MINUS expression .)
+    NE              reduce using rule 28 (expression -> expression MINUS expression .)
+    EQ              reduce using rule 28 (expression -> expression MINUS expression .)
+    PLUS            reduce using rule 28 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 28 (expression -> expression MINUS expression .)
+    COMA            reduce using rule 28 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 28 (expression -> expression MINUS expression .)
+    FUNCTION        reduce using rule 28 (expression -> expression MINUS expression .)
+    PLOT            reduce using rule 28 (expression -> expression MINUS expression .)
+    RETURN          reduce using rule 28 (expression -> expression MINUS expression .)
+    NAME            reduce using rule 28 (expression -> expression MINUS expression .)
+    WHILE           reduce using rule 28 (expression -> expression MINUS expression .)
+    IF              reduce using rule 28 (expression -> expression MINUS expression .)
+    LLAVED          reduce using rule 28 (expression -> expression MINUS expression .)
+    ELSE            reduce using rule 28 (expression -> expression MINUS expression .)
+    AND             reduce using rule 28 (expression -> expression MINUS expression .)
+    OR              reduce using rule 28 (expression -> expression MINUS expression .)
+    LLAVEI          reduce using rule 28 (expression -> expression MINUS expression .)
+    THEN            reduce using rule 28 (expression -> expression MINUS expression .)
+    PP              reduce using rule 28 (expression -> expression MINUS expression .)
+    $end            reduce using rule 28 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+  ! TIMES           [ reduce using rule 28 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 28 (expression -> expression MINUS expression .) ]
+  ! POWER           [ reduce using rule 28 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 26 ]
+  ! MINUS           [ shift and go to state 29 ]
+
+
+state 49
+
+    (30) expression -> expression DIVIDE expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    LE              reduce using rule 30 (expression -> expression DIVIDE expression .)
+    LT              reduce using rule 30 (expression -> expression DIVIDE expression .)
+    GE              reduce using rule 30 (expression -> expression DIVIDE expression .)
+    GT              reduce using rule 30 (expression -> expression DIVIDE expression .)
+    NE              reduce using rule 30 (expression -> expression DIVIDE expression .)
+    EQ              reduce using rule 30 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 30 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 30 (expression -> expression DIVIDE expression .)
+    TIMES           reduce using rule 30 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 30 (expression -> expression DIVIDE expression .)
+    COMA            reduce using rule 30 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 30 (expression -> expression DIVIDE expression .)
+    FUNCTION        reduce using rule 30 (expression -> expression DIVIDE expression .)
+    PLOT            reduce using rule 30 (expression -> expression DIVIDE expression .)
+    RETURN          reduce using rule 30 (expression -> expression DIVIDE expression .)
+    NAME            reduce using rule 30 (expression -> expression DIVIDE expression .)
+    WHILE           reduce using rule 30 (expression -> expression DIVIDE expression .)
+    IF              reduce using rule 30 (expression -> expression DIVIDE expression .)
+    LLAVED          reduce using rule 30 (expression -> expression DIVIDE expression .)
+    ELSE            reduce using rule 30 (expression -> expression DIVIDE expression .)
+    AND             reduce using rule 30 (expression -> expression DIVIDE expression .)
+    OR              reduce using rule 30 (expression -> expression DIVIDE expression .)
+    LLAVEI          reduce using rule 30 (expression -> expression DIVIDE expression .)
+    THEN            reduce using rule 30 (expression -> expression DIVIDE expression .)
+    PP              reduce using rule 30 (expression -> expression DIVIDE expression .)
+    $end            reduce using rule 30 (expression -> expression DIVIDE expression .)
+    POWER           shift and go to state 28
+
+  ! POWER           [ reduce using rule 30 (expression -> expression DIVIDE expression .) ]
+  ! PLUS            [ shift and go to state 26 ]
+  ! MINUS           [ shift and go to state 29 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! DIVIDE          [ shift and go to state 30 ]
+
+
+state 50
+
+    (11) lista_nombres_aux -> COMA NAME lista_nombres_aux .
+
+    RPAREN          reduce using rule 11 (lista_nombres_aux -> COMA NAME lista_nombres_aux .)
+
+
+state 51
+
+    (16) instruccion -> RETURN expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    FUNCTION        reduce using rule 16 (instruccion -> RETURN expression .)
+    PLOT            reduce using rule 16 (instruccion -> RETURN expression .)
+    RETURN          reduce using rule 16 (instruccion -> RETURN expression .)
+    NAME            reduce using rule 16 (instruccion -> RETURN expression .)
+    WHILE           reduce using rule 16 (instruccion -> RETURN expression .)
+    IF              reduce using rule 16 (instruccion -> RETURN expression .)
+    LLAVED          reduce using rule 16 (instruccion -> RETURN expression .)
+    ELSE            reduce using rule 16 (instruccion -> RETURN expression .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 52
+
+    (17) instruccion -> NAME EQUALS . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 65
+
+state 53
+
+    (18) instruccion -> WHILE COMP . bloque
+    (38) COMP -> COMP . AND COMP
+    (39) COMP -> COMP . OR COMP
+    (22) bloque -> . instruccion
+    (23) bloque -> . LLAVEI lista_instrucciones LLAVED
+    (16) instruccion -> . RETURN expression
+    (17) instruccion -> . NAME EQUALS expression
+    (18) instruccion -> . WHILE COMP bloque
+    (19) instruccion -> . IF COMP THEN bloque else
+
+    AND             shift and go to state 66
+    OR              shift and go to state 68
+    LLAVEI          shift and go to state 37
+    RETURN          shift and go to state 33
+    NAME            shift and go to state 34
+    WHILE           shift and go to state 36
+    IF              shift and go to state 39
+
+    instruccion                    shift and go to state 35
+    bloque                         shift and go to state 67
+
+state 54
+
+    (40) COMP -> LPAREN . COMP RPAREN
+    (43) expression -> LPAREN . expression RPAREN
+    (32) COMP -> . expression LE expression
+    (33) COMP -> . expression LT expression
+    (34) COMP -> . expression GE expression
+    (35) COMP -> . expression GT expression
+    (36) COMP -> . expression NE expression
+    (37) COMP -> . expression EQ expression
+    (38) COMP -> . COMP AND COMP
+    (39) COMP -> . COMP OR COMP
+    (40) COMP -> . LPAREN COMP RPAREN
+    (41) COMP -> . NOT COMP
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    LPAREN          shift and go to state 54
+    NOT             shift and go to state 55
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    NUMBER          shift and go to state 15
+
+    COMP                           shift and go to state 69
+    expression                     shift and go to state 70
+
+state 55
+
+    (41) COMP -> NOT . COMP
+    (32) COMP -> . expression LE expression
+    (33) COMP -> . expression LT expression
+    (34) COMP -> . expression GE expression
+    (35) COMP -> . expression GT expression
+    (36) COMP -> . expression NE expression
+    (37) COMP -> . expression EQ expression
+    (38) COMP -> . COMP AND COMP
+    (39) COMP -> . COMP OR COMP
+    (40) COMP -> . LPAREN COMP RPAREN
+    (41) COMP -> . NOT COMP
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    LPAREN          shift and go to state 54
+    NOT             shift and go to state 55
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    NUMBER          shift and go to state 15
+
+    COMP                           shift and go to state 71
+    expression                     shift and go to state 56
+
+state 56
+
+    (32) COMP -> expression . LE expression
+    (33) COMP -> expression . LT expression
+    (34) COMP -> expression . GE expression
+    (35) COMP -> expression . GT expression
+    (36) COMP -> expression . NE expression
+    (37) COMP -> expression . EQ expression
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    LE              shift and go to state 72
+    LT              shift and go to state 76
+    GE              shift and go to state 74
+    GT              shift and go to state 77
+    NE              shift and go to state 75
+    EQ              shift and go to state 73
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 57
+
+    (24) lista_instrucciones -> instruccion .
+    (25) lista_instrucciones -> instruccion . lista_instrucciones
+    (24) lista_instrucciones -> . instruccion
+    (25) lista_instrucciones -> . instruccion lista_instrucciones
+    (16) instruccion -> . RETURN expression
+    (17) instruccion -> . NAME EQUALS expression
+    (18) instruccion -> . WHILE COMP bloque
+    (19) instruccion -> . IF COMP THEN bloque else
+
+    LLAVED          reduce using rule 24 (lista_instrucciones -> instruccion .)
+    RETURN          shift and go to state 33
+    NAME            shift and go to state 34
+    WHILE           shift and go to state 36
+    IF              shift and go to state 39
+
+    instruccion                    shift and go to state 57
+    lista_instrucciones            shift and go to state 78
+
+state 58
+
+    (23) bloque -> LLAVEI lista_instrucciones . LLAVED
+
+    LLAVED          shift and go to state 79
+
+
+state 59
+
+    (19) instruccion -> IF COMP . THEN bloque else
+    (38) COMP -> COMP . AND COMP
+    (39) COMP -> COMP . OR COMP
+
+    THEN            shift and go to state 80
+    AND             shift and go to state 66
+    OR              shift and go to state 68
+
+
+state 60
+
+    (26) expression -> NAME LPAREN lista_expresiones RPAREN .
+
+    LE              reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    LT              reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    GE              reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    GT              reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    NE              reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    EQ              reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    PLUS            reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    MINUS           reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    TIMES           reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    DIVIDE          reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    POWER           reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    COMA            reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    RPAREN          reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    FUNCTION        reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    PLOT            reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    RETURN          reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    NAME            reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    WHILE           reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    IF              reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    LLAVED          reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    ELSE            reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    AND             reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    OR              reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    LLAVEI          reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    THEN            reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    PP              reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+    $end            reduce using rule 26 (expression -> NAME LPAREN lista_expresiones RPAREN .)
+
+
+state 61
+
+    (5) lista_expresiones -> expression lista_expresiones_aux .
+
+    RPAREN          reduce using rule 5 (lista_expresiones -> expression lista_expresiones_aux .)
+
+
+state 62
+
+    (7) lista_expresiones_aux -> COMA . expression lista_expresiones_aux
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 81
+
+state 63
+
+    (8) lista_expresiones_aux -> lambda .
+
+    RPAREN          reduce using rule 8 (lista_expresiones_aux -> lambda .)
+
+
+state 64
+
+    (2) plot -> PLOT LPAREN expression COMA expression RPAREN . FOR NAME EQUALS rango
+
+    FOR             shift and go to state 82
+
+
+state 65
+
+    (17) instruccion -> NAME EQUALS expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    FUNCTION        reduce using rule 17 (instruccion -> NAME EQUALS expression .)
+    PLOT            reduce using rule 17 (instruccion -> NAME EQUALS expression .)
+    RETURN          reduce using rule 17 (instruccion -> NAME EQUALS expression .)
+    NAME            reduce using rule 17 (instruccion -> NAME EQUALS expression .)
+    WHILE           reduce using rule 17 (instruccion -> NAME EQUALS expression .)
+    IF              reduce using rule 17 (instruccion -> NAME EQUALS expression .)
+    LLAVED          reduce using rule 17 (instruccion -> NAME EQUALS expression .)
+    ELSE            reduce using rule 17 (instruccion -> NAME EQUALS expression .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 66
+
+    (38) COMP -> COMP AND . COMP
+    (32) COMP -> . expression LE expression
+    (33) COMP -> . expression LT expression
+    (34) COMP -> . expression GE expression
+    (35) COMP -> . expression GT expression
+    (36) COMP -> . expression NE expression
+    (37) COMP -> . expression EQ expression
+    (38) COMP -> . COMP AND COMP
+    (39) COMP -> . COMP OR COMP
+    (40) COMP -> . LPAREN COMP RPAREN
+    (41) COMP -> . NOT COMP
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    LPAREN          shift and go to state 54
+    NOT             shift and go to state 55
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    NUMBER          shift and go to state 15
+
+    COMP                           shift and go to state 83
+    expression                     shift and go to state 56
+
+state 67
+
+    (18) instruccion -> WHILE COMP bloque .
+
+    FUNCTION        reduce using rule 18 (instruccion -> WHILE COMP bloque .)
+    PLOT            reduce using rule 18 (instruccion -> WHILE COMP bloque .)
+    RETURN          reduce using rule 18 (instruccion -> WHILE COMP bloque .)
+    NAME            reduce using rule 18 (instruccion -> WHILE COMP bloque .)
+    WHILE           reduce using rule 18 (instruccion -> WHILE COMP bloque .)
+    IF              reduce using rule 18 (instruccion -> WHILE COMP bloque .)
+    LLAVED          reduce using rule 18 (instruccion -> WHILE COMP bloque .)
+    ELSE            reduce using rule 18 (instruccion -> WHILE COMP bloque .)
+
+
+state 68
+
+    (39) COMP -> COMP OR . COMP
+    (32) COMP -> . expression LE expression
+    (33) COMP -> . expression LT expression
+    (34) COMP -> . expression GE expression
+    (35) COMP -> . expression GT expression
+    (36) COMP -> . expression NE expression
+    (37) COMP -> . expression EQ expression
+    (38) COMP -> . COMP AND COMP
+    (39) COMP -> . COMP OR COMP
+    (40) COMP -> . LPAREN COMP RPAREN
+    (41) COMP -> . NOT COMP
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    LPAREN          shift and go to state 54
+    NOT             shift and go to state 55
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    NUMBER          shift and go to state 15
+
+    COMP                           shift and go to state 84
+    expression                     shift and go to state 56
+
+state 69
+
+    (40) COMP -> LPAREN COMP . RPAREN
+    (38) COMP -> COMP . AND COMP
+    (39) COMP -> COMP . OR COMP
+
+    RPAREN          shift and go to state 85
+    AND             shift and go to state 66
+    OR              shift and go to state 68
+
+
+state 70
+
+    (43) expression -> LPAREN expression . RPAREN
+    (32) COMP -> expression . LE expression
+    (33) COMP -> expression . LT expression
+    (34) COMP -> expression . GE expression
+    (35) COMP -> expression . GT expression
+    (36) COMP -> expression . NE expression
+    (37) COMP -> expression . EQ expression
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    RPAREN          shift and go to state 43
+    LE              shift and go to state 72
+    LT              shift and go to state 76
+    GE              shift and go to state 74
+    GT              shift and go to state 77
+    NE              shift and go to state 75
+    EQ              shift and go to state 73
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 71
+
+    (41) COMP -> NOT COMP .
+    (38) COMP -> COMP . AND COMP
+    (39) COMP -> COMP . OR COMP
+
+    AND             reduce using rule 41 (COMP -> NOT COMP .)
+    OR              reduce using rule 41 (COMP -> NOT COMP .)
+    LLAVEI          reduce using rule 41 (COMP -> NOT COMP .)
+    RETURN          reduce using rule 41 (COMP -> NOT COMP .)
+    NAME            reduce using rule 41 (COMP -> NOT COMP .)
+    WHILE           reduce using rule 41 (COMP -> NOT COMP .)
+    IF              reduce using rule 41 (COMP -> NOT COMP .)
+    THEN            reduce using rule 41 (COMP -> NOT COMP .)
+    RPAREN          reduce using rule 41 (COMP -> NOT COMP .)
+
+  ! AND             [ shift and go to state 66 ]
+  ! OR              [ shift and go to state 68 ]
+
+
+state 72
+
+    (32) COMP -> expression LE . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 86
+
+state 73
+
+    (37) COMP -> expression EQ . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 87
+
+state 74
+
+    (34) COMP -> expression GE . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 88
+
+state 75
+
+    (36) COMP -> expression NE . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 89
+
+state 76
+
+    (33) COMP -> expression LT . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 90
+
+state 77
+
+    (35) COMP -> expression GT . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 91
+
+state 78
+
+    (25) lista_instrucciones -> instruccion lista_instrucciones .
+
+    LLAVED          reduce using rule 25 (lista_instrucciones -> instruccion lista_instrucciones .)
+
+
+state 79
+
+    (23) bloque -> LLAVEI lista_instrucciones LLAVED .
+
+    FUNCTION        reduce using rule 23 (bloque -> LLAVEI lista_instrucciones LLAVED .)
+    PLOT            reduce using rule 23 (bloque -> LLAVEI lista_instrucciones LLAVED .)
+    RETURN          reduce using rule 23 (bloque -> LLAVEI lista_instrucciones LLAVED .)
+    NAME            reduce using rule 23 (bloque -> LLAVEI lista_instrucciones LLAVED .)
+    WHILE           reduce using rule 23 (bloque -> LLAVEI lista_instrucciones LLAVED .)
+    IF              reduce using rule 23 (bloque -> LLAVEI lista_instrucciones LLAVED .)
+    LLAVED          reduce using rule 23 (bloque -> LLAVEI lista_instrucciones LLAVED .)
+    ELSE            reduce using rule 23 (bloque -> LLAVEI lista_instrucciones LLAVED .)
+
+
+state 80
+
+    (19) instruccion -> IF COMP THEN . bloque else
+    (22) bloque -> . instruccion
+    (23) bloque -> . LLAVEI lista_instrucciones LLAVED
+    (16) instruccion -> . RETURN expression
+    (17) instruccion -> . NAME EQUALS expression
+    (18) instruccion -> . WHILE COMP bloque
+    (19) instruccion -> . IF COMP THEN bloque else
+
+    LLAVEI          shift and go to state 37
+    RETURN          shift and go to state 33
+    NAME            shift and go to state 34
+    WHILE           shift and go to state 36
+    IF              shift and go to state 39
+
+    instruccion                    shift and go to state 35
+    bloque                         shift and go to state 92
+
+state 81
+
+    (7) lista_expresiones_aux -> COMA expression . lista_expresiones_aux
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+    (7) lista_expresiones_aux -> . COMA expression lista_expresiones_aux
+    (8) lista_expresiones_aux -> . lambda
+    (4) lambda -> .
+
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+    COMA            shift and go to state 62
+    RPAREN          reduce using rule 4 (lambda -> .)
+
+    lambda                         shift and go to state 63
+    lista_expresiones_aux          shift and go to state 93
+
+state 82
+
+    (2) plot -> PLOT LPAREN expression COMA expression RPAREN FOR . NAME EQUALS rango
+
+    NAME            shift and go to state 94
+
+
+state 83
+
+    (38) COMP -> COMP AND COMP .
+    (38) COMP -> COMP . AND COMP
+    (39) COMP -> COMP . OR COMP
+
+    AND             reduce using rule 38 (COMP -> COMP AND COMP .)
+    OR              reduce using rule 38 (COMP -> COMP AND COMP .)
+    LLAVEI          reduce using rule 38 (COMP -> COMP AND COMP .)
+    RETURN          reduce using rule 38 (COMP -> COMP AND COMP .)
+    NAME            reduce using rule 38 (COMP -> COMP AND COMP .)
+    WHILE           reduce using rule 38 (COMP -> COMP AND COMP .)
+    IF              reduce using rule 38 (COMP -> COMP AND COMP .)
+    THEN            reduce using rule 38 (COMP -> COMP AND COMP .)
+    RPAREN          reduce using rule 38 (COMP -> COMP AND COMP .)
+
+  ! AND             [ shift and go to state 66 ]
+  ! OR              [ shift and go to state 68 ]
+
+
+state 84
+
+    (39) COMP -> COMP OR COMP .
+    (38) COMP -> COMP . AND COMP
+    (39) COMP -> COMP . OR COMP
+
+    OR              reduce using rule 39 (COMP -> COMP OR COMP .)
+    LLAVEI          reduce using rule 39 (COMP -> COMP OR COMP .)
+    RETURN          reduce using rule 39 (COMP -> COMP OR COMP .)
+    NAME            reduce using rule 39 (COMP -> COMP OR COMP .)
+    WHILE           reduce using rule 39 (COMP -> COMP OR COMP .)
+    IF              reduce using rule 39 (COMP -> COMP OR COMP .)
+    THEN            reduce using rule 39 (COMP -> COMP OR COMP .)
+    RPAREN          reduce using rule 39 (COMP -> COMP OR COMP .)
+    AND             shift and go to state 66
+
+  ! AND             [ reduce using rule 39 (COMP -> COMP OR COMP .) ]
+  ! OR              [ shift and go to state 68 ]
+
+
+state 85
+
+    (40) COMP -> LPAREN COMP RPAREN .
+
+    AND             reduce using rule 40 (COMP -> LPAREN COMP RPAREN .)
+    OR              reduce using rule 40 (COMP -> LPAREN COMP RPAREN .)
+    LLAVEI          reduce using rule 40 (COMP -> LPAREN COMP RPAREN .)
+    RETURN          reduce using rule 40 (COMP -> LPAREN COMP RPAREN .)
+    NAME            reduce using rule 40 (COMP -> LPAREN COMP RPAREN .)
+    WHILE           reduce using rule 40 (COMP -> LPAREN COMP RPAREN .)
+    IF              reduce using rule 40 (COMP -> LPAREN COMP RPAREN .)
+    THEN            reduce using rule 40 (COMP -> LPAREN COMP RPAREN .)
+    RPAREN          reduce using rule 40 (COMP -> LPAREN COMP RPAREN .)
+
+
+state 86
+
+    (32) COMP -> expression LE expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    AND             reduce using rule 32 (COMP -> expression LE expression .)
+    OR              reduce using rule 32 (COMP -> expression LE expression .)
+    LLAVEI          reduce using rule 32 (COMP -> expression LE expression .)
+    RETURN          reduce using rule 32 (COMP -> expression LE expression .)
+    NAME            reduce using rule 32 (COMP -> expression LE expression .)
+    WHILE           reduce using rule 32 (COMP -> expression LE expression .)
+    IF              reduce using rule 32 (COMP -> expression LE expression .)
+    THEN            reduce using rule 32 (COMP -> expression LE expression .)
+    RPAREN          reduce using rule 32 (COMP -> expression LE expression .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 87
+
+    (37) COMP -> expression EQ expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    AND             reduce using rule 37 (COMP -> expression EQ expression .)
+    OR              reduce using rule 37 (COMP -> expression EQ expression .)
+    LLAVEI          reduce using rule 37 (COMP -> expression EQ expression .)
+    RETURN          reduce using rule 37 (COMP -> expression EQ expression .)
+    NAME            reduce using rule 37 (COMP -> expression EQ expression .)
+    WHILE           reduce using rule 37 (COMP -> expression EQ expression .)
+    IF              reduce using rule 37 (COMP -> expression EQ expression .)
+    THEN            reduce using rule 37 (COMP -> expression EQ expression .)
+    RPAREN          reduce using rule 37 (COMP -> expression EQ expression .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 88
+
+    (34) COMP -> expression GE expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    AND             reduce using rule 34 (COMP -> expression GE expression .)
+    OR              reduce using rule 34 (COMP -> expression GE expression .)
+    LLAVEI          reduce using rule 34 (COMP -> expression GE expression .)
+    RETURN          reduce using rule 34 (COMP -> expression GE expression .)
+    NAME            reduce using rule 34 (COMP -> expression GE expression .)
+    WHILE           reduce using rule 34 (COMP -> expression GE expression .)
+    IF              reduce using rule 34 (COMP -> expression GE expression .)
+    THEN            reduce using rule 34 (COMP -> expression GE expression .)
+    RPAREN          reduce using rule 34 (COMP -> expression GE expression .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 89
+
+    (36) COMP -> expression NE expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    AND             reduce using rule 36 (COMP -> expression NE expression .)
+    OR              reduce using rule 36 (COMP -> expression NE expression .)
+    LLAVEI          reduce using rule 36 (COMP -> expression NE expression .)
+    RETURN          reduce using rule 36 (COMP -> expression NE expression .)
+    NAME            reduce using rule 36 (COMP -> expression NE expression .)
+    WHILE           reduce using rule 36 (COMP -> expression NE expression .)
+    IF              reduce using rule 36 (COMP -> expression NE expression .)
+    THEN            reduce using rule 36 (COMP -> expression NE expression .)
+    RPAREN          reduce using rule 36 (COMP -> expression NE expression .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 90
+
+    (33) COMP -> expression LT expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    AND             reduce using rule 33 (COMP -> expression LT expression .)
+    OR              reduce using rule 33 (COMP -> expression LT expression .)
+    LLAVEI          reduce using rule 33 (COMP -> expression LT expression .)
+    RETURN          reduce using rule 33 (COMP -> expression LT expression .)
+    NAME            reduce using rule 33 (COMP -> expression LT expression .)
+    WHILE           reduce using rule 33 (COMP -> expression LT expression .)
+    IF              reduce using rule 33 (COMP -> expression LT expression .)
+    THEN            reduce using rule 33 (COMP -> expression LT expression .)
+    RPAREN          reduce using rule 33 (COMP -> expression LT expression .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 91
+
+    (35) COMP -> expression GT expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    AND             reduce using rule 35 (COMP -> expression GT expression .)
+    OR              reduce using rule 35 (COMP -> expression GT expression .)
+    LLAVEI          reduce using rule 35 (COMP -> expression GT expression .)
+    RETURN          reduce using rule 35 (COMP -> expression GT expression .)
+    NAME            reduce using rule 35 (COMP -> expression GT expression .)
+    WHILE           reduce using rule 35 (COMP -> expression GT expression .)
+    IF              reduce using rule 35 (COMP -> expression GT expression .)
+    THEN            reduce using rule 35 (COMP -> expression GT expression .)
+    RPAREN          reduce using rule 35 (COMP -> expression GT expression .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 92
+
+    (19) instruccion -> IF COMP THEN bloque . else
+    (20) else -> . ELSE bloque
+    (21) else -> . lambda
+    (4) lambda -> .
+
+    ELSE            shift and go to state 97
+    FUNCTION        reduce using rule 4 (lambda -> .)
+    PLOT            reduce using rule 4 (lambda -> .)
+    RETURN          reduce using rule 4 (lambda -> .)
+    NAME            reduce using rule 4 (lambda -> .)
+    WHILE           reduce using rule 4 (lambda -> .)
+    IF              reduce using rule 4 (lambda -> .)
+    LLAVED          reduce using rule 4 (lambda -> .)
+
+  ! ELSE            [ reduce using rule 4 (lambda -> .) ]
+
+    lambda                         shift and go to state 95
+    else                           shift and go to state 96
+
+state 93
+
+    (7) lista_expresiones_aux -> COMA expression lista_expresiones_aux .
+
+    RPAREN          reduce using rule 7 (lista_expresiones_aux -> COMA expression lista_expresiones_aux .)
+
+
+state 94
+
+    (2) plot -> PLOT LPAREN expression COMA expression RPAREN FOR NAME . EQUALS rango
+
+    EQUALS          shift and go to state 98
+
+
+state 95
+
+    (21) else -> lambda .
+
+    FUNCTION        reduce using rule 21 (else -> lambda .)
+    PLOT            reduce using rule 21 (else -> lambda .)
+    RETURN          reduce using rule 21 (else -> lambda .)
+    NAME            reduce using rule 21 (else -> lambda .)
+    WHILE           reduce using rule 21 (else -> lambda .)
+    IF              reduce using rule 21 (else -> lambda .)
+    LLAVED          reduce using rule 21 (else -> lambda .)
+    ELSE            reduce using rule 21 (else -> lambda .)
+
+
+state 96
+
+    (19) instruccion -> IF COMP THEN bloque else .
+
+    FUNCTION        reduce using rule 19 (instruccion -> IF COMP THEN bloque else .)
+    PLOT            reduce using rule 19 (instruccion -> IF COMP THEN bloque else .)
+    RETURN          reduce using rule 19 (instruccion -> IF COMP THEN bloque else .)
+    NAME            reduce using rule 19 (instruccion -> IF COMP THEN bloque else .)
+    WHILE           reduce using rule 19 (instruccion -> IF COMP THEN bloque else .)
+    IF              reduce using rule 19 (instruccion -> IF COMP THEN bloque else .)
+    LLAVED          reduce using rule 19 (instruccion -> IF COMP THEN bloque else .)
+    ELSE            reduce using rule 19 (instruccion -> IF COMP THEN bloque else .)
+
+
+state 97
+
+    (20) else -> ELSE . bloque
+    (22) bloque -> . instruccion
+    (23) bloque -> . LLAVEI lista_instrucciones LLAVED
+    (16) instruccion -> . RETURN expression
+    (17) instruccion -> . NAME EQUALS expression
+    (18) instruccion -> . WHILE COMP bloque
+    (19) instruccion -> . IF COMP THEN bloque else
+
+    LLAVEI          shift and go to state 37
+    RETURN          shift and go to state 33
+    NAME            shift and go to state 34
+    WHILE           shift and go to state 36
+    IF              shift and go to state 39
+
+    instruccion                    shift and go to state 35
+    bloque                         shift and go to state 99
+
+state 98
+
+    (2) plot -> PLOT LPAREN expression COMA expression RPAREN FOR NAME EQUALS . rango
+    (3) rango -> . expression PP expression PP expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    rango                          shift and go to state 100
+    expression                     shift and go to state 101
+
+state 99
+
+    (20) else -> ELSE bloque .
+
+    FUNCTION        reduce using rule 20 (else -> ELSE bloque .)
+    PLOT            reduce using rule 20 (else -> ELSE bloque .)
+    RETURN          reduce using rule 20 (else -> ELSE bloque .)
+    NAME            reduce using rule 20 (else -> ELSE bloque .)
+    WHILE           reduce using rule 20 (else -> ELSE bloque .)
+    IF              reduce using rule 20 (else -> ELSE bloque .)
+    LLAVED          reduce using rule 20 (else -> ELSE bloque .)
+    ELSE            reduce using rule 20 (else -> ELSE bloque .)
+
+
+state 100
+
+    (2) plot -> PLOT LPAREN expression COMA expression RPAREN FOR NAME EQUALS rango .
+
+    $end            reduce using rule 2 (plot -> PLOT LPAREN expression COMA expression RPAREN FOR NAME EQUALS rango .)
+
+
+state 101
+
+    (3) rango -> expression . PP expression PP expression
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    PP              shift and go to state 102
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 102
+
+    (3) rango -> expression PP . expression PP expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 103
+
+state 103
+
+    (3) rango -> expression PP expression . PP expression
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    PP              shift and go to state 104
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+
+
+state 104
+
+    (3) rango -> expression PP expression PP . expression
+    (26) expression -> . NAME LPAREN lista_expresiones RPAREN
+    (27) expression -> . expression PLUS expression
+    (28) expression -> . expression MINUS expression
+    (29) expression -> . expression TIMES expression
+    (30) expression -> . expression DIVIDE expression
+    (31) expression -> . expression POWER expression
+    (42) expression -> . MINUS expression
+    (43) expression -> . LPAREN expression RPAREN
+    (44) expression -> . NUMBER
+    (45) expression -> . NAME
+
+    NAME            shift and go to state 14
+    MINUS           shift and go to state 18
+    LPAREN          shift and go to state 16
+    NUMBER          shift and go to state 15
+
+    expression                     shift and go to state 105
+
+state 105
+
+    (3) rango -> expression PP expression PP expression .
+    (27) expression -> expression . PLUS expression
+    (28) expression -> expression . MINUS expression
+    (29) expression -> expression . TIMES expression
+    (30) expression -> expression . DIVIDE expression
+    (31) expression -> expression . POWER expression
+
+    $end            reduce using rule 3 (rango -> expression PP expression PP expression .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 30
+    POWER           shift and go to state 28
+

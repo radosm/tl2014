@@ -1,0 +1,18 @@
+function id(x)
+    return x
+
+plot (x,id(x)) for x=-10..0.5..5
+
+
+/*
+Error esperado:
+plot (x,id(x)) for x=-10..0.5..5
+       ^
+Parser Error: expecting '(', got ','
+*/
+
+
+
+
+
+

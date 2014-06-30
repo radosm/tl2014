@@ -1,0 +1,127 @@
+function abs(x)
+	if x < 0 then return -x else return x
+
+function pow(x, n) {
+	res = 1
+	while n>0 {
+		res = res * x
+		n = n - 1
+	}
+	return res
+}
+
+function sin(x) {
+	/* good approximation for positive angles.. */
+	while x > pi
+		x = x - 2*pi
+	return x-pow(x, 3)/6+pow(x,5)/120-pow(x,7)/5040+pow(x,9)/362880
+}
+
+function cos(x)
+	return sin(x+pi/2)
+
+function sqrt(x) {
+	precision = 0.000001
+	res = x / 2
+	while abs(res*res - x) > precision
+	    res = (res + x / res) / 2
+	return res
+}
+
+function dist(x0, y0, x1, y1)
+	return sqrt((y1-y0)*(y1-y0)+(x1-x0)*(x1-x0))
+
+
+function x(x0, y0, x1, y1, t, n) {
+	if n==0 then
+		return x0+(x1-x0)*t
+
+	x2 = x0+(x1-x0)/3
+	y2 = y0+(y1-y0)/3
+	x4 = x0+(x1-x0)*2/3
+	y4 = y0+(y1-y0)*2/3
+	mX = (x0+x1)/2
+	mY = (y0+y1)/2
+	d = dist(x0, y0, x1, y1)
+	x3 = mX + (y4-y2)
+	y3 = mY + (x2-x4)
+
+	if t <= 1/3 then
+		return x(x0,y0,x2,y2,3*t,n-1)
+
+	if t >= 2/3 then
+		return x(x4,y4,x1,y1,(t-2/3)*3,n-1)
+
+	if t <= 1/2 then
+		return x(x2,y2,x3,y3,(t-1/3)*2*3, n-1)
+
+	return x(x3,y3,x4,y4,(t-1/2)*2*3, n-1)
+}
+
+function y(x0, y0, x1, y1, t, n) {
+	if n==0 then
+		return y0+(y1-y0)*t
+
+	x2 = x0+(x1-x0)/3
+	y2 = y0+(y1-y0)/3
+	x4 = x0+(x1-x0)*2/3
+	y4 = y0+(y1-y0)*2/3
+	mX = (x0+x1)/2
+	mY = (y0+y1)/2
+	d = dist(x0, y0, x1, y1)
+	x3 = mX + (y4-y2)
+	y3 = mY + (x2-x4)
+
+	if t <= 1/3 then
+		return y(x0,y0,x2,y2,3*t,n-1)
+
+	if t >= 2/3 then
+		return y(x4,y4,x1,y1,(t-2/3)*3,n-1)
+
+	if t <= 1/2 then
+		return y(x2,y2,x3,y3,(t-1/3)*2*3, n-1)
+
+	return y(x3,y3,x4,y4,(t-1/2)*2*3, n-1)
+}
+
+function KochSnowflakex(t, recursiveDeep) {
+/*   ______
+    /      \    
+   /        \   t = 0..1,  1/6 para cada lado
+   \        /
+    \______/
+
+*/
+	ang = pi/3
+	if t >= 0 && t < 1/6 then
+		return x(1, 0, cos(ang), sin(ang), t*6, recursiveDeep)
+	else if t >= 1/6 && t < 2/6 then
+		return x(cos(ang), sin(ang), cos(2*ang), sin(2*ang), (t-1/6)*6, recursiveDeep)
+	else if t >= 2/6 && t < 3/6 then
+		return x(cos(2*ang), sin(2*ang), cos(3*ang), sin(3*ang), (t-2/6)*6, recursiveDeep)
+	else if t >= 3/6 && t < 4/6 then
+		return x(cos(3*ang), sin(3*ang), cos(4*ang), sin(4*ang), (t-3/6)*6, recursiveDeep)
+	else if t >= 4/6 && t < 5/6 then
+		return x(cos(4*ang), sin(4*ang), cos(5*ang), sin(5*ang), (t-4/6)*6, recursiveDeep)
+	else
+		return x(cos(5*ang), sin(5*ang), 1, 0, (t-5/6)*6, recursiveDeep)
+}
+
+function KochSnowflakey(t, recursiveDeep) {
+	ang = pi/3
+	if t >= 0 && t < 1/6 then
+		return y(1, 0, cos(ang), sin(ang), t*6, recursiveDeep)
+	else if t >= 1/6 && t < 2/6 then
+		return y(cos(ang), sin(ang), cos(2*ang), sin(2*ang), (t-1/6)*6, recursiveDeep)
+	else if t >= 2/6 && t < 3/6 then
+		return y(cos(2*ang), sin(2*ang), cos(3*ang), sin(3*ang), (t-2/6)*6, recursiveDeep)
+	else if t >= 3/6 && t < 4/6 then
+		return y(cos(3*ang), sin(3*ang), cos(4*ang), sin(4*ang), (t-3/6)*6, recursiveDeep)
+	else if t >= 4/6 && t < 5/6 then
+		return y(cos(4*ang), sin(4*ang), cos(5*ang), sin(5*ang), (t-4/6)*6, recursiveDeep)
+	else
+		return y(cos(5*ang), sin(5*ang), 1, 0, (t-5/6)*6, recursiveDeep)
+}
+
+/* plot (x(0, 1, cos(pi/3), sin(pi/3), t, 3), y(0, 1, cos(pi/3), sin(pi/3), t, 3)) for t=0..0.001..1 */
+plot (KochSnowflakex(t, 2), KochSnowflakey(t, 2)) for t=0..0.001..1

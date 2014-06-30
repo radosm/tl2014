@@ -1,0 +1,17 @@
+function constpi(x, y, z) {
+	return pi
+}
+
+function id(x)
+    return x
+
+plot (id(x),constpi(x,10*x)) for x = 0..1..10 
+
+
+/*
+Error esperado:
+Runtime Error: parameter count mismatch
+*/
+
+
+

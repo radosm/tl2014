@@ -1,0 +1,6 @@
+rm parse*
+ls codigosDeCurvas | while read a
+do
+  echo $a
+  python mylanga.py < codigosDeCurvas/$a
+done
