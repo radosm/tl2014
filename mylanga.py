@@ -103,8 +103,8 @@ precedence = (
                         # p/ej: if true then if true then a=1 else a=2
     )
 
-# dictionary of names
-names = { }
+# contexto
+contexto = st.Contexto()
 
 # Simbolo distinguido
 start='programa'
@@ -130,11 +130,9 @@ def p_test_test_test(t):
 
 def p_programa(t):
     'programa : lista_funciones plot'
-    contexto = st.Contexto()
 
 def p_plot(t):
     'plot : PLOT PARENI llamado_a_funcion COMA llamado_a_funcion PAREND FOR ID ASIGNACION rango'
-
     st.Plot(t[3],t[5],t[8],t[10]).evaluar(contexto)
     
 def p_rango(t):
