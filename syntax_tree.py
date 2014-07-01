@@ -233,25 +233,22 @@ class Plot(object):
         s=self.rango.salto.evaluar(contexto)
         i=d
 	
-	print(" desde : " + str(d))
-	print(" hasta : " + str(h))
-	print(" salto : " + str(s))
         while(i<=h):
 	    #crear un contexto nuevo para definir el valor de la variable del for
             #contexto2=contexto.copia()
             contexto2=Contexto()
 	    contexto2.asignar(self.id,i)
-            print("i="+str(i))
+
             #print("variables f1: ")
 	    #for k,v in contexto2.valores.items():
             #    print ("var : " + str(k) + " valor: " + str(v))
 	    res1 = self.llamado_f1.evaluar(contexto2)
-            print("ires1="+str(res1))
+
             #print("variables f2: ")
 	    #for k,v in contexto2.valores.items():
             #    print ("var : " + str(k) + " valor: " + str(v))
 	    res2 = self.llamado_f2.evaluar(contexto2)
-            print("ires2="+str(res2))
+            print(str(res1)+" "+str(res2))
 
 
             #for p in self.llamado_f1.parametros:

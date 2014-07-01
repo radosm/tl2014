@@ -114,25 +114,6 @@ contexto = st.Contexto()
 # Simbolo distinguido
 start='programa'
 
-def p_test_test_test(t):
-    'test_test_test : lista_funciones expresion'
-
-    lista_funciones = t[1]
-    expresion = t[2]
-
-    contexto = st.Contexto()
-
-    print '/* Programa */'
-    for decl in lista_funciones:
-        print decl.mostrar()
-    print expresion.mostrar()
-
-    print
-    print '/* Resultado */'
-    for decl in lista_funciones:
-        decl.evaluar(contexto)
-    print expresion.evaluar(contexto)
-
 def p_programa(t):
     'programa : lista_funciones plot'
 
