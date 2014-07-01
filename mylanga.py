@@ -104,12 +104,8 @@ precedence = (
     )
 
 
-# contexto
+# contexto de variables
 contexto = st.Contexto()
-
-###################################################
-#funciones de contexto
-
 
 # Simbolo distinguido
 start='programa'
