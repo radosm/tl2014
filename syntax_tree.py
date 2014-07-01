@@ -1,3 +1,14 @@
+funciones = {}
+
+def declarar_funcion(nombre, parametros, bloque):
+    if nombre in funciones :
+        raise Exception('Declaraciones multiples para la funcion: "' + nombre + '"')       
+    funciones[nombre] = (parametros, bloque)
+
+def buscar_funcion(nombre):
+    if nombre not in funciones:
+        raise Exception('Funcion no declarada: "' + nombre + '"')
+    return funciones[nombre]
 
 # Clase para guardar
 # - declaraciones de funciones
@@ -6,7 +17,6 @@
 class Contexto(object):
 
     def __init__(self):
-        self.funciones = {}
         self.valores = {}
 
     # Variables locales
@@ -19,23 +29,10 @@ class Contexto(object):
             raise Exception('Variable no inicializada: "' + nombre + '"')
         return self.valores[nombre]
 
-    # Funciones
-
-    def declarar_funcion(self, nombre, parametros, bloque):
-        if nombre in self.funciones:
-            raise Exception('Declaraciones multiples para la funcion: "' + nombre + '"')
-        self.funciones[nombre] = (parametros, bloque)
-
-    def buscar_funcion(self, nombre):
-        if nombre not in self.funciones:
-            raise Exception('Funcion no declarada: "' + nombre + '"')
-        return self.funciones[nombre]
-
     # Copia el contexto para hacer llamados a funciones,
     # con diccionario de variables vacio.
     def copia(self):
         c = Contexto()
-        c.funciones = self.funciones
         return c
 
 # Clases para representar arboles de sintaxis
@@ -141,11 +138,12 @@ class LlamarFuncion(object):
                            ', '.join([p.mostrar() for p in self.parametros]))
 
     def evaluar(self, contexto):
-        (nombres_parametros, bloque) = contexto.buscar_funcion(self.name)
+        (nombres_parametros, bloque) = buscar_funcion(self.name)
 
         if len(nombres_parametros) != len(self.parametros):
             raise Exception('No coincide la aridad para la funcion "' + self.name + '"')
 
+        #Evalua cada expresion y asigna los valores obtenidos a los nombres de variables del bloque de codigo de cada funcion
         contexto2 = contexto.copia()
         for n, p in zip(nombres_parametros, self.parametros):
             contexto2.asignar(n, p.evaluar(contexto))
@@ -234,17 +232,33 @@ class Plot(object):
         h=self.rango.h.evaluar(contexto)
         s=self.rango.salto.evaluar(contexto)
         i=d
-
+	
+	print(" desde : " + str(d))
+	print(" hasta : " + str(h))
+	print(" salto : " + str(s))
         while(i<=h):
-            contexto2=contexto.copia()
+	    #crear un contexto nuevo para definir el valor de la variable del for
+            #contexto2=contexto.copia()
+            contexto2=Contexto()
 	    contexto2.asignar(self.id,i)
             print("i="+str(i))
+            #print("variables f1: ")
+	    #for k,v in contexto2.valores.items():
+            #    print ("var : " + str(k) + " valor: " + str(v))
+	    res1 = self.llamado_f1.evaluar(contexto2)
+            print("ires1="+str(res1))
+            #print("variables f2: ")
+	    #for k,v in contexto2.valores.items():
+            #    print ("var : " + str(k) + " valor: " + str(v))
+	    res2 = self.llamado_f2.evaluar(contexto2)
+            print("ires2="+str(res2))
 
-            for p in self.llamado_f1.parametros:
-               print("par_f1="+str(p.evaluar(contexto2)))
 
-            for p in self.llamado_f2.parametros:
-               print("par_f2="+str(p.evaluar(contexto2)))
+            #for p in self.llamado_f1.parametros:
+            #   print("par_f1="+str(p.evaluar(contexto2)))
+		
+            #for p in self.llamado_f2.parametros:
+            #   print("par_f2="+str(p.evaluar(contexto2)))
 
             i=i+s
 
@@ -254,22 +268,6 @@ class Rango(object):
         self.d = d
         self.salto = salto
         self.h = h
-
-class DeclararFuncion(object):
-
-    def __init__(self, name, parametros, bloque):
-        self.name = name
-        self.parametros = parametros
-        self.bloque = bloque
-
-    def mostrar(self):
-        return 'function %s(%s) %s' % (
-                    self.name,
-                    ', '.join(self.parametros),
-                    self.bloque.mostrar())
-
-    def evaluar(self, contexto):
-        contexto.declarar_funcion(self.name, self.parametros, self.bloque)
 
 # Excepcion para indicar que se llego al return de
 # una funcion.

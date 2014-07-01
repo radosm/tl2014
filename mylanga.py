@@ -103,8 +103,13 @@ precedence = (
                         # p/ej: if true then if true then a=1 else a=2
     )
 
+
 # contexto
 contexto = st.Contexto()
+
+###################################################
+#funciones de contexto
+
 
 # Simbolo distinguido
 start='programa'
@@ -185,7 +190,7 @@ def p_lista_funciones_recursiva(t):
 
 def p_funcion(t):
     'funcion : FUNCTION ID PARENI lista_nombres PAREND bloque' 
-    t[0] = st.DeclararFuncion(t[2], t[4], t[6])
+    st.declarar_funcion(t[2], t[4], t[6])
 
 def p_instruccion_return(t):
     'instruccion : RETURN expresion'
