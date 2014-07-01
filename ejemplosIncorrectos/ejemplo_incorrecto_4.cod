@@ -1,0 +1,12 @@
+/*En este caso chequeamos que el plot tome parametros correctos, es decir, dos funciones que
+dependen de solo el parametro pasado en el for de la declaracion del plot*/
+function id(x) {
+    return x
+}
+
+function sum(x,y) {
+    z = x+y
+    return z
+}
+
+plot (id(x), sum(x,y)) for x=0..1..10

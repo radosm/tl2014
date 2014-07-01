@@ -1,5 +1,4 @@
-/*
-En este ejemplo evaluamos como punto de falla el utilizar mas de una funcion con el mismo 
+/*En este ejemplo evaluamos como punto de falla el utilizar mas de una funcion con el mismo 
 nombre. 
 */
 function mala(x,y) {

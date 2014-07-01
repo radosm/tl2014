@@ -1,0 +1,7 @@
+/*Chequeo que una funcion no pueda tener como nombre una palabra reservada; en este caso,
+la palabra reservada function*/
+
+function function(x) 
+    return 0
+
+plot (function(x), function(x)) for x=0..0.1..1 
