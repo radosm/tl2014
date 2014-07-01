@@ -1,0 +1,25 @@
+/*
+En este ejemplo evaluamos como punto de falla el utilizar mas de una funcion con el mismo 
+nombre. 
+*/
+function mala(x,y) {
+    x = 1
+    x = x*2
+    y = x^2
+}
+
+function fact(x) {
+    if x==0 || x==1 then
+        return 1
+    i = 1
+    while n > 0 {
+        i = i*x
+        x = x-1
+    } 
+    return i
+}
+
+function mala(x)
+    return 1
+
+plot (fact(x), funcion1(x)) for x = -1..0.1..1

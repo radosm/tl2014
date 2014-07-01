@@ -1,0 +1,22 @@
+function id(x)
+    return x
+
+function sum(x,y) {
+    z = x + y
+    return z
+}
+
+function mayor(x,y) {
+    if x > y
+        return x
+    else 
+        return y
+    return 1
+    x = x * 2
+}
+
+function mala(x) {
+    return x
+}
+
+plot(sum(x,x), id(x)) for x=-10..1..10
