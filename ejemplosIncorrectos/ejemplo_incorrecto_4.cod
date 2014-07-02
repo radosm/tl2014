@@ -1,5 +1,5 @@
-/*En este caso chequeamos que el plot tome parametros correctos, es decir, dos funciones que
-dependen de solo el parametro pasado en el for de la declaracion del plot*/
+/*En este caso chequeamos que el plot tome los parametros correctos, es decir, dos funciones que
+dependan solo de la variable declarada en el for*/
 function id(x) {
     return x
 }
