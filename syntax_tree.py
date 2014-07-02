@@ -16,7 +16,7 @@ def declarar_funcion(nombre, parametros, bloque):
 
 def buscar_funcion(nombre):
     if nombre not in funciones:
-        raise Exception('Funcion no declarada: "' + nombre + '"')
+        raise Exception('ERROR: Funcion no declarada: "' + nombre + '"')
     return funciones[nombre]
 
 # Clase para guardar
@@ -142,7 +142,7 @@ class LlamarFuncion(object):
             return ret.valor
 
         # si llego aca es que la funcion no tenia return
-        raise Exception('La funcion "' + self.name + '" no tiene return')
+        raise Exception('ERROR: La funcion "' + self.name + '" no tiene return')
 
 class Bloque(object):
     # instrucciones es lista de instrucciones
