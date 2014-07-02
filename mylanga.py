@@ -1,15 +1,22 @@
 # -----------------------------------------------------------------------------
-# mylanga.py
+# mylanga.py: funciones para construir el lexer y el parser
 #
 # TP Teoria de lenguajes - 1er C 2014 
 #
 # Autores (en orden alfabetico): Gabriela Croce - Elisa Orduna - Martin Rados
 # -----------------------------------------------------------------------------
 
-import syntax_tree as st
+import sys
 import math
+import lex as lex
+import yacc as yacc
+import syntax_tree as st
 
-# Palabras reservadas
+#################
+#   L E X E R   #
+#################
+
+# Lista de palabras reservadas
 
 reserved = {
    'pi' : 'PI',
@@ -23,6 +30,8 @@ reserved = {
    'function' : 'FUNCTION',
 }
 
+# Lista de tokens
+
 tokens = [
     'PP','ID','NUMERO','COMA','LLAVEI','LLAVED',
     'MAS','MENOS','MULTIPLICACION','DIVISION','ASIGNACION',
@@ -31,12 +40,15 @@ tokens = [
     'AND','OR','NOT',
     ]+list(reserved.values())
 
+# Definicion de tokens
+
 # Ignorar comentarios multilinea
 def t_comentario(t):
     r'(/\*(.|\n)*?\*/)'
     pass
 
-# Tokens
+# Ignorar espacios y tabs
+t_ignore = " \t"
 
 t_PP      = r'\.\.'
 t_COMA    = r'\,'
@@ -74,9 +86,6 @@ def t_NUMERO(t):
         t.value = 0
     return t
 
-# Ignored characters
-t_ignore = " \t"
-
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
@@ -85,11 +94,14 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
     
-# Build the lexer
-import lex as lex
+# Construye el lexer
 lex.lex()
 
-# Parsing rules
+###################
+#   P A R S E R   #
+###################
+
+# Precedencia para resolver conflictos
 
 precedence = (
     ('left','MAS','MENOS'),
@@ -104,12 +116,10 @@ precedence = (
     )
 
 
-# contexto
+# contexto de variables
 contexto = st.Contexto()
 
-###################################################
-#funciones de contexto
-
+# Reglas de parsing
 
 # Simbolo distinguido
 start='programa'
@@ -286,11 +296,10 @@ def p_expresion_name(t):
 def p_error(t):
     print("Syntax error at '%s'" % t.value)
 
-import sys
-import yacc as yacc
+# Construye el parser
 yacc.yacc()
 
+# Parsea y ejecuta la stdin
 s = sys.stdin.read()
-
-programa = yacc.parse(s) #,debug=1)
+programa = yacc.parse(s)
 
