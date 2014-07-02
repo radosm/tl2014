@@ -17,5 +17,6 @@ function mayor(x,y) {
 }
 
 function mala(x) 
+x=1
 
 plot(sum(x,x), id(x)) for x=-10..1..10

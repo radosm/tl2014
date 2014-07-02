@@ -300,6 +300,12 @@ def p_error(t):
 yacc.yacc()
 
 # Parsea y ejecuta la stdin
-s = sys.stdin.read()
-programa = yacc.parse(s)
+try:
+    s = sys.stdin.read()
+    programa = yacc.parse(s)
+except Exception as e:
+    print str(e)
+
+
+
 

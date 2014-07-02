@@ -6,12 +6,12 @@ if [ $# -gt 1 ]; then
 else
    if [ $# -eq 1 ]; then
       if [ -f $1 ]; then
-         (cd $(dirname $0);2>/dev/null python mylanga.py) < $1
+         (cd $(dirname $0);python mylanga.py) < $1
       else
          echo "El archivo $1 no existe" >&2
          exit 1
       fi
    else 
-      (cd $(dirname $0);2>/dev/null python mylanga.py)
+      (cd $(dirname $0);python mylanga.py)
    fi
 fi

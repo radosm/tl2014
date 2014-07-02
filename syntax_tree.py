@@ -205,8 +205,8 @@ class Plot(object):
 	    contexto2.asignar(self.id,i)
 
 	    res1 = self.llamado_f1.evaluar(contexto2)
-
 	    res2 = self.llamado_f2.evaluar(contexto2)
+
             print(str(res1)+" "+str(res2))
 
             i=i+s
