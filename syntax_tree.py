@@ -11,7 +11,7 @@ funciones = {}
 
 def declarar_funcion(nombre, parametros, bloque):
     if nombre in funciones :
-        raise Exception('Declaraciones multiples para la funcion: "' + nombre + '"')       
+        raise Exception('ERROR: Declaraciones multiples para la funcion: "' + nombre + '"')       
     funciones[nombre] = (parametros, bloque)
 
 def buscar_funcion(nombre):
@@ -34,7 +34,7 @@ class Contexto(object):
 
     def obtener(self, nombre):
         if nombre not in self.valores:
-            raise Exception('Variable no inicializada: "' + nombre + '"')
+            raise Exception('ERROR: Variable no inicializada: "' + nombre + '"')
         return self.valores[nombre]
 
     # Copia el contexto para hacer llamados a funciones,
@@ -128,7 +128,7 @@ class LlamarFuncion(object):
         (nombres_parametros, bloque) = buscar_funcion(self.name)
 
         if len(nombres_parametros) != len(self.parametros):
-            raise Exception('No coincide la aridad para la funcion "' + self.name + '"')
+            raise Exception('ERROR: No coincide la aridad para la funcion "' + self.name + '"')
 
         #Evalua cada expresion y asigna los valores obtenidos a los nombres de variables 
         #del bloque de codigo de cada funcion

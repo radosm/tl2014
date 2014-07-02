@@ -294,7 +294,7 @@ def p_expresion_name(t):
     t[0] = st.Variable(t[1])
 
 def p_error(t):
-    print("Syntax error at '%s'" % t.value)
+    print("ERROR: error sintactico en '%s'" % t.value)
 
 # Construye el parser
 yacc.yacc()
